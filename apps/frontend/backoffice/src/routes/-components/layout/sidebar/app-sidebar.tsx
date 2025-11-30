@@ -24,7 +24,7 @@ import {
   useSidebar,
 } from '@repo/ui/components/sidebar';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { ChevronUp, FileText, Home, type LucideIcon } from 'lucide-react';
+import { ChevronUp, FileText, GitBranch, Home, type LucideIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { AuthSession } from '@/clients/authClient';
 import { authClient } from '@/clients/authClient';
@@ -45,6 +45,11 @@ const navItems: NavItem[] = [
     title: 'Flows',
     href: '/flows',
     icon: FileText,
+  },
+  {
+    title: 'Diagrams',
+    href: '/diagrams',
+    icon: GitBranch,
   },
 ];
 

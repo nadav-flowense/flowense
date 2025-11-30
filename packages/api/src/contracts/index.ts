@@ -1,4 +1,5 @@
 import { oc } from '@orpc/contract';
+import diagramContract from './diagrams';
 import flowContract from './flows';
 
 export const appContract = oc
@@ -16,5 +17,6 @@ export const appContract = oc
     },
   })
   .router({
+    diagrams: diagramContract,
     flows: flowContract,
   });

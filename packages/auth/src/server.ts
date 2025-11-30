@@ -5,7 +5,8 @@ import { admin, openAPI, organization } from 'better-auth/plugins';
 import urlJoin from 'url-join';
 
 export interface AuthOptions {
-  webUrl: string;
+  platformUrl: string;
+  backofficeUrl: string;
   serverUrl: string;
   apiPath: `/${string}`;
   authSecret: string;
@@ -31,7 +32,8 @@ export const getBaseOptions = (db: DatabaseInstance) =>
   }) satisfies BetterAuthOptions;
 
 export const createAuth = ({
-  webUrl,
+  platformUrl,
+  backofficeUrl,
   serverUrl,
   apiPath,
   db,
@@ -41,7 +43,7 @@ export const createAuth = ({
     ...getBaseOptions(db),
     baseURL: urlJoin(serverUrl, apiPath, 'auth'),
     secret: authSecret,
-    trustedOrigins: [webUrl].map((url) => new URL(url).origin),
+    trustedOrigins: [platformUrl, backofficeUrl].map((url) => new URL(url).origin),
     session: {
       cookieCache: {
         enabled: true,

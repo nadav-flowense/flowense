@@ -12,7 +12,7 @@ export const Route = createRootRoute({
 // https://tanstack.com/router/v1/docs/framework/react/devtools
 const TanStackRouterDevtools = import.meta.env.PROD
     ? () => null
-    : React.lazy(() => import('@tanstack/router-devtools').then((res) => ({
+    : React.lazy(() => import('@tanstack/react-router-devtools').then((res) => ({
         default: res.TanStackRouterDevtools,
     })));
 function RootComponent() {

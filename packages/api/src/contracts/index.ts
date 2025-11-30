@@ -1,5 +1,5 @@
 import { oc } from '@orpc/contract';
-import postContract from './posts';
+import postContract from './flows';
 
 export const appContract = oc
   .errors({
@@ -16,5 +16,5 @@ export const appContract = oc
     },
   })
   .router({
-    posts: postContract,
+    flows: postContract,
   });

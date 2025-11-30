@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import type { AuthSession } from '@/clients/authClient';
+import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
 import NavContainer from '@/routes/-components/layout/nav/nav-container';
 import UserAvatar from '@/routes/-components/layout/nav/user-avatar';
-import { postsLinkOptions } from '@/routes/_protected/posts/-validations/posts-link-options';
 
 const activeClassName = 'underline decoration-2 opacity-70';
 
@@ -19,10 +19,10 @@ export function Navbar({ session }: Readonly<{ session: AuthSession }>) {
         </Link>
         {session?.user ? (
           <Link
-            {...postsLinkOptions}
+            {...flowsLinkOptions}
             activeProps={{ className: activeClassName }}
           >
-            Posts
+            Flows
           </Link>
         ) : null}
       </div>

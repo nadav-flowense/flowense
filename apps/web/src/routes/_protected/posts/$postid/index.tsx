@@ -1,21 +1,21 @@
 import { ArrowLeftIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { Button } from '@repo/ui/components/button';
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
-  TooltipContent,
   TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from '@repo/ui/components/tooltip';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
-import { postsLinkOptions } from '@/routes/_protected/posts/-validations/posts-link-options';
+import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
 
 export const Route = createFileRoute('/_protected/posts/$postid/')({
   loader: ({ params }) =>
     queryClient.ensureQueryData(
-      apiClient.posts.one.queryOptions({ input: { id: params.postid } }),
+      apiClient.flows.one.queryOptions({ input: { id: params.postid } }),
     ),
   component: RouteComponent,
   errorComponent: ({ error, reset }) => {
@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_protected/posts/$postid/')({
         <div>{error.message}</div>
         <div className="flex gap-2">
           <Button asChild variant="outline" className="w-full">
-            <Link {...postsLinkOptions}>
+            <Link {...flowsLinkOptions}>
               <ArrowLeftIcon />
               Go Back
             </Link>
@@ -69,7 +69,7 @@ function RouteComponent() {
               variant="link"
               className="w-12 border border-gray-500 mt-4 md:mt-6 hover:brightness-150"
             >
-              <Link {...postsLinkOptions}>
+              <Link {...flowsLinkOptions}>
                 <ArrowLeftIcon />
               </Link>
             </Button>
@@ -80,7 +80,7 @@ function RouteComponent() {
             sideOffset={4}
             className="bg-neutral-500 fill-neutral-500 duration-0"
           >
-            <span>View all posts</span>
+            <span>View all flows</span>
             <TooltipArrow width={15} height={10} className="duration-0" />
           </TooltipContent>
         </Tooltip>

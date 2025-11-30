@@ -1,10 +1,10 @@
+import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
 import { Toaster } from '@repo/ui/components/sonner';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import React from 'react';
 import { authClient } from '@/clients/authClient';
 import Spinner from '@/routes/-components/common/spinner';
-import NavContainer from '@/routes/-components/layout/nav/nav-container';
-import { Navbar } from '@/routes/-components/layout/nav/navbar';
+import { AppSidebar } from '@/routes/-components/layout/sidebar/app-sidebar';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -24,19 +24,37 @@ function RootComponent() {
 
   if (isPending) {
     return (
-      <NavContainer>
+      <div className="flex h-screen items-center justify-center">
         <Spinner />
-      </NavContainer>
+      </div>
     );
   }
 
+  // Signed-in users get the sidebar layout
+  if (session?.user) {
+    return (
+      <SidebarProvider>
+        <AppSidebar session={session} />
+        <SidebarInset>
+          <div className="flex-1 p-4">
+            <Outlet />
+          </div>
+        </SidebarInset>
+        <Toaster />
+        <React.Suspense>
+          <TanStackRouterDevtools position="bottom-right" />
+        </React.Suspense>
+      </SidebarProvider>
+    );
+  }
+
+  // Non-authenticated users get a simple layout without sidebar
   return (
     <>
-      <Navbar session={session} />
-      <Toaster />
-      <div className="p-2 md:p-4">
+      <div className="min-h-screen">
         <Outlet />
       </div>
+      <Toaster />
       <React.Suspense>
         <TanStackRouterDevtools position="bottom-right" />
       </React.Suspense>

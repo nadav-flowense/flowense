@@ -17,7 +17,7 @@ export const post = pgTable('post', (t) => ({
     .notNull(),
 }));
 
-export const CreatePostSchema = v.omit(
+export const CreateFlowSchema = v.omit(
   createInsertSchema(post, {
     title: v.pipe(v.string(), v.minLength(3), v.maxLength(256)),
     content: v.pipe(v.string(), v.minLength(5), v.maxLength(512)),

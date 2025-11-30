@@ -8,12 +8,12 @@ import {
 } from '@repo/ui/components/tooltip';
 import { cn } from '@repo/ui/lib/utils';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import type { ReactNode } from 'react';
+import { toast } from 'sonner';
 import { apiClient } from '@/clients/apiClient';
 import Spinner from '@/routes/-components/common/spinner';
 
-export default function DeletePostButton({
+export default function DeleteFlowButton({
   children,
   className,
   postId,
@@ -22,16 +22,16 @@ export default function DeletePostButton({
   className?: string;
   postId: string;
 }>) {
-  const { refetch } = useQuery(apiClient.posts.all.queryOptions());
+  const { refetch } = useQuery(apiClient.flows.all.queryOptions());
 
-  const deletePostMutation = useMutation(
-    apiClient.posts.delete.mutationOptions({
+  const deleteFlowMutation = useMutation(
+    apiClient.flows.delete.mutationOptions({
       onError: (error) => {
         toast.error(error.message);
       },
       onSuccess: async () => {
         await refetch();
-        toast.info('Post deleted successfully.');
+        toast.info('Flow deleted successfully.');
       },
     }),
   );
@@ -40,15 +40,15 @@ export default function DeletePostButton({
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            disabled={deletePostMutation.isPending}
+            disabled={deleteFlowMutation.isPending}
             onClick={(e) => {
               e.preventDefault();
-              deletePostMutation.mutate({ id: postId });
+              deleteFlowMutation.mutate({ id: postId });
             }}
             variant="destructive"
             className={cn('h-9 w-10', className)}
           >
-            {deletePostMutation.isPending ? <Spinner /> : children}
+            {deleteFlowMutation.isPending ? <Spinner /> : children}
           </Button>
         </TooltipTrigger>
         <TooltipContent
@@ -57,7 +57,7 @@ export default function DeletePostButton({
           sideOffset={4}
           className="bg-neutral-500 fill-neutral-500 duration-0"
         >
-          <span>Delete Post</span>
+          <span>Delete Flow</span>
           <TooltipArrow width={15} height={10} className="duration-0" />
         </TooltipContent>
       </Tooltip>

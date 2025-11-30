@@ -80,7 +80,7 @@ The following features are implemented out-of-the-box:
 
 - login/register (using [better-auth email/password](https://www.better-auth.com/docs/authentication/email-password)) credentials provider
 - themes (dark/light mode using [next-themes](github.com/pacocoursey/next-themes))
-- web/server integration ([orpc](https://orpc.unnoq.com/docs/getting-started) API example for creating/listing posts)
+- web/server integration ([orpc](https://orpc.unnoq.com/docs/getting-started) API example for creating/listing flows)
 
 You can visit the [live demo](https://rtstack.nktnet.uk) to see these features in action.
 

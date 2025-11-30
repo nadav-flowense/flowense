@@ -26,6 +26,7 @@
     "@tanstack/router-devtools": "catalog:",
     "dotenv-cli": "catalog:",
     "lucide-react": "^0.555.0",
+    "mermaid": "^11.4.1",
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

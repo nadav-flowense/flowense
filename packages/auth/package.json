@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     "./client": "./src/client.ts",
+    "./client-query": "./src/client-query.ts",
     "./server": "./src/server.ts"
   },
   "scripts": {
@@ -17,6 +18,7 @@
   },
   "dependencies": {
     "@repo/db": "workspace:*",
+    "@tanstack/react-query": "catalog:",
     "better-auth": "catalog:",
     "url-join": "catalog:"
   },

@@ -1,11 +1,9 @@
-import { createAuthClient } from '@repo/auth/client';
+import { createAuthIntegration } from '@repo/auth/client-query';
 import { env } from '@/env';
 
-export const authClient = createAuthClient({
+export const { authClient, authQueryOptions } = createAuthIntegration({
   apiBaseUrl: env.PUBLIC_SERVER_URL,
   apiBasePath: env.PUBLIC_SERVER_API_PATH,
 });
 
-export type AuthSession =
-  | ReturnType<typeof createAuthClient>['$Infer']['Session']
-  | null;
+export type { AuthSession } from '@repo/auth/client-query';

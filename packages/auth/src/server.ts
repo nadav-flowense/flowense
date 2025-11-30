@@ -43,7 +43,9 @@ export const createAuth = ({
     ...getBaseOptions(db),
     baseURL: urlJoin(serverUrl, apiPath, 'auth'),
     secret: authSecret,
-    trustedOrigins: [platformUrl, backofficeUrl].map((url) => new URL(url).origin),
+    trustedOrigins: [platformUrl, backofficeUrl].map(
+      (url) => new URL(url).origin,
+    ),
     session: {
       cookieCache: {
         enabled: true,

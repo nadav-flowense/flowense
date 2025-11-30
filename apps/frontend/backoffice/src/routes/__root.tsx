@@ -3,7 +3,7 @@ import { Toaster } from '@repo/ui/components/sonner';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import React from 'react';
-import { authQueryOptions } from '@/clients/authQueryOptions';
+import { authQueryOptions } from '@/clients/authClient';
 import type { RouterContext } from '@/router';
 import { AppSidebar } from '@/routes/-components/layout/sidebar/app-sidebar';
 

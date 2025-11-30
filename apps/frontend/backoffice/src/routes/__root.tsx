@@ -1,12 +1,18 @@
 import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
 import { Toaster } from '@repo/ui/components/sonner';
-import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import React from 'react';
-import { authClient } from '@/clients/authClient';
-import Spinner from '@/routes/-components/common/spinner';
+import { authQueryOptions } from '@/clients/authQueryOptions';
+import type { RouterContext } from '@/router';
 import { AppSidebar } from '@/routes/-components/layout/sidebar/app-sidebar';
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: ({ context }) => {
+    // Prefetch auth data without blocking - auth is not required for public routes.
+    // Protected routes will await the data via ensureQueryData in their beforeLoad.
+    context.queryClient.prefetchQuery(authQueryOptions());
+  },
   component: RootComponent,
 });
 
@@ -20,15 +26,7 @@ const TanStackRouterDevtools = import.meta.env.PROD
     );
 
 function RootComponent() {
-  const { data: session, isPending } = authClient.useSession();
-
-  if (isPending) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  const { data: session } = useSuspenseQuery(authQueryOptions());
 
   // Signed-in users get the sidebar layout
   if (session?.user) {

@@ -1,21 +1,18 @@
-import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
-import { authClient } from '@/clients/authClient';
-import Spinner from '@/routes/-components/common/spinner';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+import { authQueryOptions } from '@/clients/authQueryOptions';
 
 export const Route = createFileRoute('/_protected')({
+  beforeLoad: async ({ context }) => {
+    const session = await context.queryClient.ensureQueryData(
+      authQueryOptions(),
+    );
+    if (!session?.user) {
+      throw redirect({ to: '/' });
+    }
+  },
   component: Layout,
 });
 
 function Layout() {
-  const { data: session, isPending } = authClient.useSession();
-
-  if (isPending) {
-    return <Spinner />;
-  }
-
-  if (!session?.user) {
-    return <Navigate to="/" />;
-  }
-
   return <Outlet />;
 }

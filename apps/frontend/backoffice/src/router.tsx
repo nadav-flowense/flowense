@@ -1,9 +1,13 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
 import { createRouter as createTanstackRouter } from '@tanstack/react-router';
 import { queryClient } from '@/clients/queryClient';
 import { env } from '@/env';
-import { routeTree } from '@/routeTree.gen';
 import Spinner from '@/routes/-components/common/spinner';
+import { routeTree } from '@/routeTree.gen';
+
+export interface RouterContext {
+  queryClient: QueryClient;
+}
 
 export function createRouter() {
   const router = createTanstackRouter({
@@ -12,6 +16,9 @@ export function createRouter() {
     scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPendingComponent: () => <Spinner />,
+    context: {
+      queryClient,
+    },
     Wrap: function WrapComponent({ children }) {
       return (
         <QueryClientProvider client={queryClient}>

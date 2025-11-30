@@ -14,8 +14,8 @@ import { Route as ProtectedLayoutRouteImport } from './routes/_protected/layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ProtectedPostsIndexRouteImport } from './routes/_protected/posts/index'
-import { Route as ProtectedPostsPostidIndexRouteImport } from './routes/_protected/posts/$postid/index'
+import { Route as ProtectedFlowsIndexRouteImport } from './routes/_protected/flows/index'
+import { Route as ProtectedFlowsFlowidIndexRouteImport } from './routes/_protected/flows/$flowid/index'
 
 const PublicLayoutRoute = PublicLayoutRouteImport.update({
   id: '/_public',
@@ -40,15 +40,15 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => PublicLayoutRoute,
 } as any)
-const ProtectedPostsIndexRoute = ProtectedPostsIndexRouteImport.update({
-  id: '/posts/',
-  path: '/posts/',
+const ProtectedFlowsIndexRoute = ProtectedFlowsIndexRouteImport.update({
+  id: '/flows/',
+  path: '/flows/',
   getParentRoute: () => ProtectedLayoutRoute,
 } as any)
-const ProtectedPostsPostidIndexRoute =
-  ProtectedPostsPostidIndexRouteImport.update({
-    id: '/posts/$postid/',
-    path: '/posts/$postid/',
+const ProtectedFlowsFlowidIndexRoute =
+  ProtectedFlowsFlowidIndexRouteImport.update({
+    id: '/flows/$flowid/',
+    path: '/flows/$flowid/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
 
@@ -56,15 +56,15 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
-  '/posts': typeof ProtectedPostsIndexRoute
-  '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
+  '/flows': typeof ProtectedFlowsIndexRoute
+  '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
-  '/posts': typeof ProtectedPostsIndexRoute
-  '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
+  '/flows': typeof ProtectedFlowsIndexRoute
+  '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -73,14 +73,14 @@ export interface FileRoutesById {
   '/_public': typeof PublicLayoutRouteWithChildren
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
-  '/_protected/posts/': typeof ProtectedPostsIndexRoute
-  '/_protected/posts/$postid/': typeof ProtectedPostsPostidIndexRoute
+  '/_protected/flows/': typeof ProtectedFlowsIndexRoute
+  '/_protected/flows/$flowid/': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/posts' | '/posts/$postid'
+  fullPaths: '/' | '/login' | '/register' | '/flows' | '/flows/$flowid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/posts' | '/posts/$postid'
+  to: '/' | '/login' | '/register' | '/flows' | '/flows/$flowid'
   id:
     | '__root__'
     | '/'
@@ -88,8 +88,8 @@ export interface FileRouteTypes {
     | '/_public'
     | '/_public/login'
     | '/_public/register'
-    | '/_protected/posts/'
-    | '/_protected/posts/$postid/'
+    | '/_protected/flows/'
+    | '/_protected/flows/$flowid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -135,31 +135,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicLayoutRoute
     }
-    '/_protected/posts/': {
-      id: '/_protected/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof ProtectedPostsIndexRouteImport
+    '/_protected/flows/': {
+      id: '/_protected/flows/'
+      path: '/flows'
+      fullPath: '/flows'
+      preLoaderRoute: typeof ProtectedFlowsIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
-    '/_protected/posts/$postid/': {
-      id: '/_protected/posts/$postid/'
-      path: '/posts/$postid'
-      fullPath: '/posts/$postid'
-      preLoaderRoute: typeof ProtectedPostsPostidIndexRouteImport
+    '/_protected/flows/$flowid/': {
+      id: '/_protected/flows/$flowid/'
+      path: '/flows/$flowid'
+      fullPath: '/flows/$flowid'
+      preLoaderRoute: typeof ProtectedFlowsFlowidIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
   }
 }
 
 interface ProtectedLayoutRouteChildren {
-  ProtectedPostsIndexRoute: typeof ProtectedPostsIndexRoute
-  ProtectedPostsPostidIndexRoute: typeof ProtectedPostsPostidIndexRoute
+  ProtectedFlowsIndexRoute: typeof ProtectedFlowsIndexRoute
+  ProtectedFlowsFlowidIndexRoute: typeof ProtectedFlowsFlowidIndexRoute
 }
 
 const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
-  ProtectedPostsIndexRoute: ProtectedPostsIndexRoute,
-  ProtectedPostsPostidIndexRoute: ProtectedPostsPostidIndexRoute,
+  ProtectedFlowsIndexRoute: ProtectedFlowsIndexRoute,
+  ProtectedFlowsFlowidIndexRoute: ProtectedFlowsFlowidIndexRoute,
 }
 
 const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(

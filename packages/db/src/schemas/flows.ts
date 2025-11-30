@@ -3,7 +3,7 @@ import { createInsertSchema } from 'drizzle-valibot';
 import * as v from 'valibot';
 import { user } from './auth';
 
-export const post = pgTable('post', (t) => ({
+export const flow = pgTable('flow', (t) => ({
   id: t.uuid().primaryKey().defaultRandom(),
   title: t.varchar({ length: 256 }).notNull(),
   content: t.text().notNull(),
@@ -18,7 +18,7 @@ export const post = pgTable('post', (t) => ({
 }));
 
 export const CreateFlowSchema = v.omit(
-  createInsertSchema(post, {
+  createInsertSchema(flow, {
     title: v.pipe(v.string(), v.minLength(3), v.maxLength(256)),
     content: v.pipe(v.string(), v.minLength(5), v.maxLength(512)),
   }),

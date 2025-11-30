@@ -16,11 +16,11 @@ import Spinner from '@/routes/-components/common/spinner';
 export default function DeleteFlowButton({
   children,
   className,
-  postId,
+  flowId,
 }: Readonly<{
   children: ReactNode;
   className?: string;
-  postId: string;
+  flowId: string;
 }>) {
   const { refetch } = useQuery(apiClient.flows.all.queryOptions());
 
@@ -43,7 +43,7 @@ export default function DeleteFlowButton({
             disabled={deleteFlowMutation.isPending}
             onClick={(e) => {
               e.preventDefault();
-              deleteFlowMutation.mutate({ id: postId });
+              deleteFlowMutation.mutate({ id: flowId });
             }}
             variant="destructive"
             className={cn('h-9 w-10', className)}

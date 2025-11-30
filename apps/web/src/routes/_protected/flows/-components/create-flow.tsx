@@ -75,7 +75,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
             onSuccess: async () => {
               setOpenDialog(false);
               await getAllFlowsQuery.refetch();
-              toast.success('Your post has been created!');
+              toast.success('Your flow has been created!');
               formApi.reset();
             },
             onError: (error) => {

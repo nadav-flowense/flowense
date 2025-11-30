@@ -1,5 +1,5 @@
-import postRouter from './post';
+import flowRouter from './flow';
 
 export const appRouter = {
-  flows: postRouter,
+  flows: flowRouter,
 };

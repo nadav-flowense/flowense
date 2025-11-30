@@ -25,15 +25,15 @@ import {
 import * as v from 'valibot';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
-import CreateFlowButton from '@/routes/_protected/flows/-components/create-post';
-import DeleteFlowButton from '@/routes/_protected/flows/-components/delete-post';
+import CreateFlowButton from '@/routes/_protected/flows/-components/create-flow';
+import DeleteFlowButton from '@/routes/_protected/flows/-components/delete-flow';
 import {
   type FlowSearchSchema,
   flowsSearchDefaults,
   flowsSearchSchema,
 } from '@/routes/_protected/flows/-validations/flows-link-options';
 
-export const Route = createFileRoute('/_protected/posts/')({
+export const Route = createFileRoute('/_protected/flows/')({
   loader: () => queryClient.ensureQueryData(apiClient.flows.all.queryOptions()),
   component: RouteComponent,
   validateSearch: (input: SearchSchemaInput) =>
@@ -51,29 +51,29 @@ export const Route = createFileRoute('/_protected/posts/')({
 });
 
 function FlowItem({
-  post,
+  flow,
   disabled,
 }: Readonly<{
-  post: RouterOutput['flows']['all'][number];
+  flow: RouterOutput['flows']['all'][number];
   disabled: boolean;
 }>) {
   return (
     <Link
-      to="/flows/$postid"
-      params={{ postid: post.id }}
+      to="/flows/$flowid"
+      params={{ flowid: flow.id }}
       className="border border-gray-500 bg-elevated p-4 w-full flex items-center justify-between gap-3 rounded-xl hover:brightness-90"
       disabled={disabled}
     >
       <div className="flex flex-col gap-y-1">
         <div className="text-lg font-bold line-clamp-3 wrap-anywhere">
-          {post.title}
+          {flow.title}
         </div>
         <div className="italic text-sm">
-          {new Date(post.createdAt).toLocaleString()}
+          {new Date(flow.createdAt).toLocaleString()}
         </div>
       </div>
 
-      <DeleteFlowButton postId={post.id}>
+      <DeleteFlowButton flowId={flow.id}>
         <TrashIcon />
       </DeleteFlowButton>
     </Link>
@@ -158,7 +158,7 @@ function RouteComponent() {
       <div className="flex gap-x-3 gap-y-3 flex-wrap my-4 md:my-6">
         {filteredFlow?.length
           ? filteredFlow.map((p) => (
-              <FlowItem key={p.id} post={p} disabled={isPending} />
+              <FlowItem key={p.id} flow={p} disabled={isPending} />
             ))
           : 'There are no flows available.'}
       </div>

@@ -1,37 +1,16 @@
-import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
-import { createRouter as createTanstackRouter } from '@tanstack/react-router';
+import { createRouterFactory } from '@repo/router';
 import { queryClient } from '@/clients/queryClient';
 import { env } from '@/env';
 import Spinner from '@/routes/-components/common/spinner';
 import { routeTree } from '@/routeTree.gen';
 
-export interface RouterContext {
-  queryClient: QueryClient;
-}
+export type { RouterContext } from '@repo/router';
 
 export function createRouter() {
-  const router = createTanstackRouter({
+  return createRouterFactory({
     routeTree,
+    queryClient,
     basepath: env.PUBLIC_BASE_PATH,
-    scrollRestoration: true,
-    defaultPreload: 'intent',
-    defaultPendingComponent: () => <Spinner />,
-    context: {
-      queryClient,
-    },
-    Wrap: function WrapComponent({ children }) {
-      return (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      );
-    },
+    defaultPendingComponent: Spinner,
   });
-  return router;
-}
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: ReturnType<typeof createRouter>;
-  }
 }

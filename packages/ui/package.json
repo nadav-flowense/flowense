@@ -16,6 +16,10 @@
     "./components/*": {
       "types": "./dist/src/components/*.d.ts",
       "default": "./src/components/*.tsx"
+    },
+    "./components/auth": {
+      "types": "./dist/src/components/auth/index.d.ts",
+      "default": "./src/components/auth/index.ts"
     }
   },
   "scripts": {
@@ -30,18 +34,24 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "catalog:",
+    "@radix-ui/react-checkbox": "^1.3.3",
     "@radix-ui/react-dialog": "catalog:",
     "@radix-ui/react-dropdown-menu": "catalog:",
     "@radix-ui/react-icons": "catalog:",
     "@radix-ui/react-label": "catalog:",
+    "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "catalog:",
     "@radix-ui/react-toast": "catalog:",
     "@radix-ui/react-tooltip": "catalog:",
+    "@tabler/icons-react": "catalog:",
     "class-variance-authority": "catalog:",
+    "input-otp": "catalog:",
+    "lucide-react": "catalog:",
     "next-themes": "catalog:",
     "radix-ui": "catalog:",
     "sonner": "catalog:",
-    "tailwind-merge": "catalog:"
+    "tailwind-merge": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@repo/tailwind-config": "workspace:*",
@@ -51,6 +61,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
+    "@tanstack/react-form": "catalog:",
     "react": "catalog:"
   }
 }

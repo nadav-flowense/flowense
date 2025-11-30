@@ -13,3 +13,5 @@ out/
 
 .vercel
 .nx/
+
+tanstack-better-auth-boilerplate

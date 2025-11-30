@@ -1,8 +1,8 @@
 services:
-  web:
+  platform:
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
+      dockerfile: ./apps/frontend/platform/Dockerfile
       args:
         # Backend API server - used at build time to create the bundle
         PUBLIC_SERVER_URL: http://localhost:3035
@@ -16,12 +16,31 @@ services:
       test:
         ["CMD-SHELL", "curl --fail --silent http://localhost:80/healthcheck"]
     depends_on:
-      - server
+      - api
 
-  server:
+  backoffice:
     build:
       context: .
-      dockerfile: ./apps/server/Dockerfile
+      dockerfile: ./apps/frontend/backoffice/Dockerfile
+      args:
+        # Backend API server - used at build time to create the bundle
+        PUBLIC_SERVER_URL: http://localhost:3035
+        PUBLIC_SERVER_API_PATH: /api
+    ports:
+      - 8086:80
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      test:
+        ["CMD-SHELL", "curl --fail --silent http://localhost:80/healthcheck"]
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/backend/api/Dockerfile
     ports:
       - 3035:3000
     environment:
@@ -29,7 +48,8 @@ services:
       - SERVER_POSTGRES_URL=postgres://postgres:postgres@db:5431/postgres
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=3000
-      - PUBLIC_WEB_URL=http://localhost:8085
+      - PUBLIC_PLATFORM_URL=http://localhost:8085
+      - PUBLIC_BACKOFFICE_URL=http://localhost:8086
       - PUBLIC_SERVER_URL=http://localhost:3035
     healthcheck:
       interval: 30s

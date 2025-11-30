@@ -2,6 +2,13 @@
   "name": "backoffice",
   "private": true,
   "type": "module",
+  "nx": {
+    "targets": {
+      "dev": {
+        "continuous": true
+      }
+    }
+  },
   "scripts": {
     "build": "pnpm env:run build",
     "clean": "git clean -xdf .cache dist .nx node_modules",
@@ -23,7 +30,7 @@
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@tanstack/router-devtools": "catalog:",
+    "@tanstack/react-router-devtools": "catalog:",
     "dotenv-cli": "catalog:",
     "lucide-react": "^0.555.0",
     "mermaid": "^11.4.1",

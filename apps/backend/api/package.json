@@ -2,6 +2,13 @@
   "name": "api",
   "private": true,
   "type": "module",
+  "nx": {
+    "targets": {
+      "dev": {
+        "continuous": true
+      }
+    }
+  },
   "scripts": {
     "build": "tsdown",
     "clean": "git clean -xdf .cache .nx dist node_modules",

@@ -3,27 +3,29 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "auth:schema:generate": "turbo run auth:schema:generate",
+    "auth:schema:generate": "nx run-many -t auth:schema:generate",
     "postauth:schema:generate": "echo NOTE: you will also need to fix styles and db:push your new schema",
-    "build": "turbo run build",
-    "clean": "turbo run clean",
-    "db:push": "turbo -F @repo/db push",
-    "db:studio": "turbo -F @repo/db studio",
-    "dev": "turbo watch dev --continue",
-    "env:copy-example": "turbo run env:copy-example",
-    "env:remove": "turbo run env:remove",
-    "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
-    "format:fix": "pnpm format --write",
-    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
-    "lint:fix": "pnpm lint --fix",
-    "postclean": "git clean -xdf .cache .turbo node_modules",
-    "start": "turbo run start",
-    "typecheck": "turbo run typecheck",
-    "ui-add": "turbo run ui-add -F @repo/ui --"
+    "build": "nx run-many -t build",
+    "clean": "nx run-many -t clean",
+    "db:push": "nx run @repo/db:push",
+    "db:studio": "nx run @repo/db:studio",
+    "dev": "nx run-many -t dev",
+    "env:copy-example": "nx run-many -t env:copy-example",
+    "env:remove": "nx run-many -t env:remove",
+    "format": "nx run-many -t format",
+    "format:fix": "nx run-many -t format -- --write",
+    "lint": "nx run-many -t lint",
+    "lint:fix": "nx run-many -t lint -- --fix",
+    "postclean": "git clean -xdf .cache .nx node_modules",
+    "start": "nx run-many -t start",
+    "typecheck": "nx run-many -t typecheck",
+    "ui-add": "nx run @repo/ui:ui-add --"
   },
   "packageManager": "pnpm@10.23.0",
   "devDependencies": {
-    "turbo": "catalog:"
+    "@biomejs/biome": "catalog:",
+    "@nx/js": "catalog:",
+    "nx": "catalog:"
   },
   "engines": {
     "node": ">=22.10.0"

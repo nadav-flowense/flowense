@@ -18,18 +18,17 @@
   },
   "scripts": {
     "build": "tsc --build",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "clean": "git clean -xdf .cache .nx dist node_modules",
     "dev": "tsc --build tsconfig.package.json",
     "env:copy-example": "shx -- cp -n .env.example .env",
     "env:remove": "shx -- rm -f .env",
     "env:run": "dotenv --",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
+    "format": "biome format ./src",
+    "lint": "biome lint ./src",
     "push": "pnpm env:run drizzle-kit push",
     "studio": "pnpm env:run drizzle-kit studio",
     "typecheck": "tsc --build --noEmit --emitDeclarationOnly false"
   },
-  "prettier": "@repo/prettier-config",
   "dependencies": {
     "drizzle-orm": "catalog:",
     "drizzle-valibot": "catalog:",
@@ -37,16 +36,12 @@
     "valibot": "catalog:"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/pg": "catalog:",
     "dotenv-cli": "catalog:",
     "drizzle-kit": "catalog:",
-    "eslint": "catalog:",
     "shx": "catalog:",
-    "prettier": "catalog:",
     "typescript": "catalog:"
   }
 }

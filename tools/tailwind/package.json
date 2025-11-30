@@ -3,22 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint"
+    "clean": "git clean -xdf .cache .nx node_modules"
   },
   "exports": {
     "./style.css": "./style.css"
   },
-  "prettier": "@repo/prettier-config",
   "dependencies": {
-    "eslint": "catalog:",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "catalog:"
-  },
-  "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/prettier-config": "workspace:*",
-    "prettier": "catalog:"
   }
 }

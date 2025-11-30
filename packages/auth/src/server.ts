@@ -1,5 +1,5 @@
 import type { DatabaseInstance } from '@repo/db/client';
-import { type BetterAuthOptions, betterAuth } from 'better-auth';
+import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, openAPI, organization } from 'better-auth/plugins';
 import urlJoin from 'url-join';
@@ -15,22 +15,6 @@ export interface AuthOptions {
 
 export type AuthInstance = ReturnType<typeof createAuth>;
 
-/**
- * This function is abstracted for schema generations in cli-config.ts
- */
-export const getBaseOptions = (db: DatabaseInstance) =>
-  ({
-    database: drizzleAdapter(db, {
-      provider: 'pg',
-    }),
-
-    /**
-     * Only uncomment the line below if you are using plugins, so that
-     * your types can be correctly inferred:
-     */
-    plugins: [openAPI(), admin(), organization()],
-  }) satisfies BetterAuthOptions;
-
 export const createAuth = ({
   platformUrl,
   backofficeUrl,
@@ -40,12 +24,25 @@ export const createAuth = ({
   authSecret,
 }: AuthOptions) => {
   return betterAuth({
-    ...getBaseOptions(db),
+    database: drizzleAdapter(db, {
+      provider: 'pg',
+    }),
     baseURL: urlJoin(serverUrl, apiPath, 'auth'),
     secret: authSecret,
     trustedOrigins: [platformUrl, backofficeUrl].map(
       (url) => new URL(url).origin,
     ),
+    plugins: [openAPI(), admin(), organization()],
+    onAPIError: {
+      throw: true,
+      onError: (error) => {
+        console.error('auth onAPIError', error);
+      },
+      errorURL: '/signin',
+    },
+    user: {
+      deleteUser: { enabled: true },
+    },
     session: {
       cookieCache: {
         enabled: true,
@@ -54,8 +51,16 @@ export const createAuth = ({
     },
     emailAndPassword: {
       enabled: true,
-      autoSignIn: true,
+      minPasswordLength: 8,
+      autoSignIn: false,
+      sendOnSignUp: false,
       requireEmailVerification: false,
+    },
+    account: {
+      accountLinking: {
+        enabled: true,
+        trustedProviders: ['google', 'email-password', 'github'],
+      },
     },
   });
 };

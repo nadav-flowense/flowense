@@ -1,6 +1,7 @@
 import { createDb } from '@repo/db/client';
 import { betterAuth } from 'better-auth';
-import { getBaseOptions } from './server';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { admin, openAPI, organization } from 'better-auth/plugins';
 
 /**
  * @internal
@@ -14,5 +15,6 @@ import { getBaseOptions } from './server';
  * - https://www.better-auth.com/docs/concepts/cli
  */
 export const auth = betterAuth({
-  ...getBaseOptions(createDb()),
+  database: drizzleAdapter(createDb(), { provider: 'pg' }),
+  plugins: [openAPI(), admin(), organization()],
 });

@@ -12,10 +12,10 @@ import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
 import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
 
-export const Route = createFileRoute('/_protected/posts/$postid/')({
+export const Route = createFileRoute('/_protected/flows/$flowid/')({
   loader: ({ params }) =>
     queryClient.ensureQueryData(
-      apiClient.flows.one.queryOptions({ input: { id: params.postid } }),
+      apiClient.flows.one.queryOptions({ input: { id: params.flowid } }),
     ),
   component: RouteComponent,
   errorComponent: ({ error, reset }) => {
@@ -46,17 +46,17 @@ export const Route = createFileRoute('/_protected/posts/$postid/')({
 });
 
 function RouteComponent() {
-  const post = Route.useLoaderData();
+  const flow = Route.useLoaderData();
 
   return (
-    <div className="flex flex-col px-4 w-full max-w-6xl mx-auto break-words">
+    <div className="flex flex-col px-4 w-full max-w-6xl mx-auto wrap-break-word">
       <div className="text-center p-5 rounded-2xl">
-        <h1 className="text-2xl md:text-4xl font-bold">{post.title}</h1>
+        <h1 className="text-2xl md:text-4xl font-bold">{flow.title}</h1>
         <h2 className="text-sm text-gray-500 mt-2">
-          Created by <span className="font-medium">{post.author.name}</span>
+          Created by <span className="font-medium">{flow.author.name}</span>
         </h2>
         <h2 className="text-sm text-gray-500 mt-1">
-          {new Date(post.createdAt).toLocaleString()}
+          {new Date(flow.createdAt).toLocaleString()}
         </h2>
       </div>
       <hr className="border border-gray-500 mt-3" />
@@ -88,7 +88,7 @@ function RouteComponent() {
 
       <div className="bg-elevated shadow rounded-2xl w-full min-h-96 border border-gray-500 p-6 my-4 md:my-6">
         <p className="leading-relaxed whitespace-break-spaces">
-          {post.content ?? 'No content available.'}
+          {flow.content ?? 'No content available.'}
         </p>
       </div>
     </div>

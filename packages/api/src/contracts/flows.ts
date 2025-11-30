@@ -2,18 +2,18 @@ import { oc } from '@orpc/contract';
 import { CreateFlowSchema } from '@repo/db/schema';
 import * as v from 'valibot';
 
-const postWithIdErrors = {
-  MISSING_POST: {
+const flowWithIdErrors = {
+  MISSING_FLOW: {
     status: 404,
     data: v.object({
-      postId: v.string(),
+      flowId: v.string(),
     }),
   },
 } as const;
 
-const postContract = oc
+const flowContract = oc
   .prefix('/flows')
-  .tag('post')
+  .tag('flow')
   .router({
     all: oc
       .route({
@@ -36,11 +36,11 @@ const postContract = oc
       .route({
         method: 'GET',
         path: '/{id}',
-        summary: 'Retrieve a post',
+        summary: 'Retrieve a flow',
         description:
-          'Retrieve the full details of a post using its unique identifier',
+          'Retrieve the full details of a flow using its unique identifier',
       })
-      .errors(postWithIdErrors)
+      .errors(flowWithIdErrors)
       .input(v.object({ id: v.pipe(v.string(), v.uuid()) }))
       .output(
         v.object({
@@ -59,8 +59,8 @@ const postContract = oc
       .route({
         method: 'POST',
         path: '/',
-        summary: 'Create a new post',
-        description: 'Create a new post with title and content.',
+        summary: 'Create a new flow',
+        description: 'Create a new flow with title and content.',
       })
       .input(CreateFlowSchema)
       .output(v.object({})),
@@ -69,12 +69,12 @@ const postContract = oc
       .route({
         method: 'DELETE',
         path: '/{id}',
-        summary: 'Delete a post',
-        description: 'Permanently remove a post using its unique identifier',
+        summary: 'Delete a flow',
+        description: 'Permanently remove a flow using its unique identifier',
       })
-      .errors(postWithIdErrors)
+      .errors(flowWithIdErrors)
       .input(v.object({ id: v.pipe(v.string(), v.uuid()) }))
       .output(v.object({})),
   });
 
-export default postContract;
+export default flowContract;

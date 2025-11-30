@@ -37,17 +37,17 @@ const FormSchema = v.object({
 
 const generateTimestamp = () => Date.now();
 
-export default function CreatePostButton() {
-  const getAllPostsQuery = useQuery(apiClient.posts.all.queryOptions());
-  const createPostMutation = useMutation(
-    apiClient.posts.create.mutationOptions(),
+export default function CreateFlowButton() {
+  const getAllFlowsQuery = useQuery(apiClient.flows.all.queryOptions());
+  const createFlowMutation = useMutation(
+    apiClient.flows.create.mutationOptions(),
   );
 
   const [openDialog, setOpenDialog] = useState(false);
 
   const form = useForm({
     defaultValues: {
-      title: `Post ${generateTimestamp()}`,
+      title: `Flow ${generateTimestamp()}`,
       content: `\
 The year was 2081, and everybody was finally equal.
 They weren't only equal before God and the law.
@@ -65,7 +65,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
       onChange: FormSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      await createPostMutation
+      await createFlowMutation
         .mutateAsync(
           {
             title: value.title,
@@ -74,7 +74,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
           {
             onSuccess: async () => {
               setOpenDialog(false);
-              await getAllPostsQuery.refetch();
+              await getAllFlowsQuery.refetch();
               toast.success('Your post has been created!');
               formApi.reset();
             },
@@ -107,7 +107,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
         className="max-w-[90vw] xl:max-w-5xl data-[state=open]:slide-in-from-right-1/3 data-[state=closed]:slide-out-to-right-1/3 rounded-lg"
       >
         <DialogHeader>
-          <DialogTitle>Create Post</DialogTitle>
+          <DialogTitle>Create Flow</DialogTitle>
           <DialogDescription>
             Write about an interesting topic!
           </DialogDescription>

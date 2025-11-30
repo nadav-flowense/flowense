@@ -1,20 +1,20 @@
 import { linkOptions } from '@tanstack/react-router';
 import * as v from 'valibot';
 
-export const postsSearchSchema = v.object({
+export const flowsSearchSchema = v.object({
   searchString: v.fallback(v.string(), ''),
   sortDirection: v.fallback(v.picklist(['asc', 'desc']), 'desc'),
 });
 
-export type PostSearchSchema = v.InferOutput<typeof postsSearchSchema>;
+export type FlowSearchSchema = v.InferOutput<typeof flowsSearchSchema>;
 
-export const postsSearchDefaults = v.getFallbacks(postsSearchSchema);
+export const flowsSearchDefaults = v.getFallbacks(flowsSearchSchema);
 
-export const postsLinkOptions = linkOptions({
-  to: '/posts',
+export const flowsLinkOptions = linkOptions({
+  to: '/flows',
 
   /**
    * If we want links to contain default values in the URL
    */
-  // search: postsSearchDefaults,
+  // search: flowsSearchDefaults,
 });

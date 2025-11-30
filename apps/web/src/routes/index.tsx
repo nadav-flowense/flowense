@@ -10,7 +10,7 @@ import { useTheme } from 'next-themes';
 import urlJoin from 'url-join';
 import { authClient } from '@/clients/authClient';
 import { env } from '@/env';
-import { postsLinkOptions } from '@/routes/_protected/posts/-validations/posts-link-options';
+import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -31,12 +31,12 @@ function RouteComponent() {
             <div className="mt-3 flex gap-x-1.5">
               Click{' '}
               <Link
-                {...postsLinkOptions}
+                {...flowsLinkOptions}
                 className="flex items-center gap-x-1 text-blue-500 underline"
               >
                 here <Link2Icon className="mt-0.5" />
               </Link>{' '}
-              to view your posts.
+              to view your flows.
             </div>
 
             <div className="mt-3">

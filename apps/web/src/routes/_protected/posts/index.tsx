@@ -4,41 +4,42 @@ import {
   MagnifyingGlassIcon,
   TrashIcon,
 } from '@radix-ui/react-icons';
+import type { RouterOutput } from '@repo/api/client';
 import { Button } from '@repo/ui/components/button';
 import { Input } from '@repo/ui/components/input';
 import {
   Tooltip,
-  TooltipTrigger,
-  TooltipContent,
   TooltipArrow,
+  TooltipContent,
   TooltipProvider,
+  TooltipTrigger,
 } from '@repo/ui/components/tooltip';
 import { useQuery } from '@tanstack/react-query';
 import {
   createFileRoute,
-  stripSearchParams,
+  Link,
   type SearchSchemaInput,
+  stripSearchParams,
+  useNavigate,
 } from '@tanstack/react-router';
-import { Link, useNavigate } from '@tanstack/react-router';
 import * as v from 'valibot';
-import type { RouterOutput } from '@repo/api/client';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
-import CreatePostButton from '@/routes/_protected/posts/-components/create-post';
-import DeletePostButton from '@/routes/_protected/posts/-components/delete-post';
+import CreateFlowButton from '@/routes/_protected/flows/-components/create-post';
+import DeleteFlowButton from '@/routes/_protected/flows/-components/delete-post';
 import {
-  postsSearchDefaults,
-  postsSearchSchema,
-  type PostSearchSchema,
-} from '@/routes/_protected/posts/-validations/posts-link-options';
+  type FlowSearchSchema,
+  flowsSearchDefaults,
+  flowsSearchSchema,
+} from '@/routes/_protected/flows/-validations/flows-link-options';
 
 export const Route = createFileRoute('/_protected/posts/')({
-  loader: () => queryClient.ensureQueryData(apiClient.posts.all.queryOptions()),
+  loader: () => queryClient.ensureQueryData(apiClient.flows.all.queryOptions()),
   component: RouteComponent,
   validateSearch: (input: SearchSchemaInput) =>
-    v.parse(postsSearchSchema, input),
+    v.parse(flowsSearchSchema, input),
   search: {
-    middlewares: [stripSearchParams(postsSearchDefaults)],
+    middlewares: [stripSearchParams(flowsSearchDefaults)],
   },
   errorComponent: ({ error }) => {
     return (
@@ -49,16 +50,16 @@ export const Route = createFileRoute('/_protected/posts/')({
   },
 });
 
-function PostItem({
+function FlowItem({
   post,
   disabled,
 }: Readonly<{
-  post: RouterOutput['posts']['all'][number];
+  post: RouterOutput['flows']['all'][number];
   disabled: boolean;
 }>) {
   return (
     <Link
-      to="/posts/$postid"
+      to="/flows/$postid"
       params={{ postid: post.id }}
       className="border border-gray-500 bg-elevated p-4 w-full flex items-center justify-between gap-3 rounded-xl hover:brightness-90"
       disabled={disabled}
@@ -72,30 +73,30 @@ function PostItem({
         </div>
       </div>
 
-      <DeletePostButton postId={post.id}>
+      <DeleteFlowButton postId={post.id}>
         <TrashIcon />
-      </DeletePostButton>
+      </DeleteFlowButton>
     </Link>
   );
 }
 
 function RouteComponent() {
-  const { data: posts, isPending } = useQuery(
-    apiClient.posts.all.queryOptions(),
+  const { data: flows, isPending } = useQuery(
+    apiClient.flows.all.queryOptions(),
   );
   const navigate = useNavigate({ from: Route.fullPath });
   const search = Route.useSearch();
 
-  const updateFilters = (name: keyof PostSearchSchema, value: unknown) => {
+  const updateFilters = (name: keyof FlowSearchSchema, value: unknown) => {
     navigate({ search: (prev) => ({ ...prev, [name]: value }) });
   };
 
   /**
-   * You could memoize posts, although if you use the react 19 compiler
+   * You could memoize flows, although if you use the react 19 compiler
    * (which RT-stack will in the future), it won't be necessary.
    */
   const lowercaseSearch = search.searchString.toLowerCase();
-  const filteredPost = posts
+  const filteredFlow = flows
     ?.filter((p) => p.title.toLowerCase().includes(lowercaseSearch))
     ?.sort((a, b) =>
       search.sortDirection === 'asc'
@@ -105,8 +106,8 @@ function RouteComponent() {
   return (
     <div className="flex flex-col p-1.5 md:p-4 w-full max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Posts</h1>
-        <CreatePostButton />
+        <h1 className="text-2xl">Flows</h1>
+        <CreateFlowButton />
       </div>
       <hr className="mt-4 border-b-2 border-gray-400" />
 
@@ -155,11 +156,11 @@ function RouteComponent() {
       </div>
 
       <div className="flex gap-x-3 gap-y-3 flex-wrap my-4 md:my-6">
-        {filteredPost?.length
-          ? filteredPost.map((p) => (
-              <PostItem key={p.id} post={p} disabled={isPending} />
+        {filteredFlow?.length
+          ? filteredFlow.map((p) => (
+              <FlowItem key={p.id} post={p} disabled={isPending} />
             ))
-          : 'There are no posts available.'}
+          : 'There are no flows available.'}
       </div>
     </div>
   );

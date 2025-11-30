@@ -7,6 +7,7 @@
     "postauth:schema:generate": "echo NOTE: you will also need to fix styles and db:push your new schema",
     "build": "nx run-many -t build",
     "clean": "nx run-many -t clean",
+    "db:up": "docker compose up db --detach",
     "db:push": "nx run @repo/db:push",
     "db:studio": "nx run @repo/db:studio",
     "dev": "nx run-many -t dev",

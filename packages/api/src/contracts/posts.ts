@@ -1,5 +1,5 @@
 import { oc } from '@orpc/contract';
-import { CreatePostSchema } from '@repo/db/schema';
+import { CreateFlowSchema } from '@repo/db/schema';
 import * as v from 'valibot';
 
 const postWithIdErrors = {
@@ -12,15 +12,15 @@ const postWithIdErrors = {
 } as const;
 
 const postContract = oc
-  .prefix('/posts')
+  .prefix('/flows')
   .tag('post')
   .router({
     all: oc
       .route({
         method: 'GET',
         path: '/',
-        summary: 'List all posts',
-        description: 'Retrieve all posts from all users',
+        summary: 'List all flows',
+        description: 'Retrieve all flows from all users',
       })
       .output(
         v.array(
@@ -62,7 +62,7 @@ const postContract = oc
         summary: 'Create a new post',
         description: 'Create a new post with title and content.',
       })
-      .input(CreatePostSchema)
+      .input(CreateFlowSchema)
       .output(v.object({})),
 
     delete: oc

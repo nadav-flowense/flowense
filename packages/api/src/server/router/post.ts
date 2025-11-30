@@ -3,7 +3,7 @@ import { post, user } from '@repo/db/schema';
 import { protectedProcedure } from '../orpc';
 
 const postRouter = {
-  all: protectedProcedure.posts.all.handler(({ context }) => {
+  all: protectedProcedure.flows.all.handler(({ context }) => {
     return context.db.query.post.findMany({
       columns: {
         id: true,
@@ -14,9 +14,9 @@ const postRouter = {
     });
   }),
 
-  one: protectedProcedure.posts.one.handler(
+  one: protectedProcedure.flows.one.handler(
     async ({ context, input, errors }) => {
-      const [dbPost] = await context.db
+      const [dbFlow] = await context.db
         .select({
           id: post.id,
           title: post.title,
@@ -31,7 +31,7 @@ const postRouter = {
         .innerJoin(user, eq(post.createdBy, user.id))
         .where(eq(post.id, input.id));
 
-      if (!dbPost) {
+      if (!dbFlow) {
         throw errors.MISSING_POST({
           message: `No such post with ID ${input.id}`,
           data: {
@@ -39,11 +39,11 @@ const postRouter = {
           },
         });
       }
-      return dbPost;
+      return dbFlow;
     },
   ),
 
-  create: protectedProcedure.posts.create.handler(
+  create: protectedProcedure.flows.create.handler(
     async ({ context, input }) => {
       await context.db.insert(post).values({
         createdBy: context.session.user.id,
@@ -53,7 +53,7 @@ const postRouter = {
     },
   ),
 
-  delete: protectedProcedure.posts.delete.handler(
+  delete: protectedProcedure.flows.delete.handler(
     async ({ context, input, errors }) => {
       const res = await context.db.delete(post).where(eq(post.id, input.id));
       if (res.rowCount === 0) {

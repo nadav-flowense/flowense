@@ -1,0 +1,87 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/*"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)",
+      "!{projectRoot}/**/*.md"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production", "{projectRoot}/.env*"],
+      "outputs": ["{projectRoot}/dist/**"],
+      "cache": true
+    },
+    "dev": {
+      "dependsOn": ["^dev"],
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "auth:schema:generate": {
+      "cache": false
+    },
+    "lint": {
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/biome.json",
+        {
+          "externalDependencies": ["@biomejs/biome"]
+        }
+      ],
+      "cache": true
+    },
+    "format": {
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/biome.json",
+        {
+          "externalDependencies": ["@biomejs/biome"]
+        }
+      ],
+      "cache": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/.cache/tsbuildinfo.json"],
+      "cache": true
+    },
+    "push": {
+      "cache": false
+    },
+    "start": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "studio": {
+      "cache": false
+    },
+    "ui-add": {
+      "cache": false
+    },
+    "env:copy-example": {
+      "cache": false
+    },
+    "env:remove": {
+      "cache": false
+    }
+  },
+  "defaultBase": "main",
+  "plugins": [
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
+    }
+  ]
+}

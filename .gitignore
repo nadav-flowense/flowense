@@ -1,0 +1,15 @@
+node_modules/
+dist/
+out/
+
+.cache/
+.turbo/
+.vscode/
+
+.DS_Store
+
+.env*
+!.env.example
+
+.vercel
+.nx/

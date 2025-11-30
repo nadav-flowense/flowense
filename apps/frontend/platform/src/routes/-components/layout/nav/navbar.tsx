@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
+import { appConfig } from '@repo/config/app';
 import type { AuthSession } from '@/clients/authClient';
-import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
+import { flowsLinkOptions } from '@/routes/(app)/flows/-validations/flows-link-options';
 import NavContainer from '@/routes/-components/layout/nav/nav-container';
 import UserAvatar from '@/routes/-components/layout/nav/user-avatar';
 
@@ -31,19 +32,19 @@ export function Navbar({ session }: Readonly<{ session: AuthSession }>) {
       ) : (
         <div className="flex gap-x-2 justify-between">
           <Link
-            to="/login"
+            to={appConfig.authRoutes.signin}
             activeProps={{ className: activeClassName }}
             activeOptions={{ exact: true }}
           >
-            Login
+            Sign in
           </Link>
           <span>|</span>
           <Link
-            to="/register"
+            to={appConfig.authRoutes.signup}
             activeProps={{ className: activeClassName }}
             activeOptions={{ exact: true }}
           >
-            Register
+            Sign up
           </Link>
         </div>
       )}

@@ -24,7 +24,13 @@ import {
   useSidebar,
 } from '@repo/ui/components/sidebar';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { ChevronUp, FileText, Home, type LucideIcon } from 'lucide-react';
+import {
+  Building2,
+  ChevronUp,
+  FileText,
+  Home,
+  type LucideIcon,
+} from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { AuthSession } from '@/clients/authClient';
 import { authClient } from '@/clients/authClient';
@@ -45,6 +51,11 @@ const navItems: NavItem[] = [
     title: 'Flows',
     href: '/flows',
     icon: FileText,
+  },
+  {
+    title: 'Organizations',
+    href: '/organizations',
+    icon: Building2,
   },
 ];
 
@@ -153,7 +164,7 @@ function UserMenu({
         align={isIconMode ? 'start' : 'end'}
         sideOffset={4}
       >
-        <div className="flex flex-col p-2 max-w-full break-words whitespace-break-spaces">
+        <div className="flex flex-col p-2 max-w-full wrap-break-word whitespace-break-spaces">
           <span className="text-sm font-bold line-clamp-2">{user.name}</span>
           <span className="text-xs italic mt-1 line-clamp-2">{user.email}</span>
         </div>

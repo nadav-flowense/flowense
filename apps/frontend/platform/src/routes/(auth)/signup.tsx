@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import RegisterCredentialsForm from '@/routes/_public/-components/register-form';
+import { appConfig } from '@repo/config/app';
+import RegisterCredentialsForm from '@/routes/(auth)/-components/register-form';
 
-export const Route = createFileRoute('/_public/register')({
+export const Route = createFileRoute('/(auth)/signup')({
   component: RouteComponent,
 });
 
@@ -12,8 +13,8 @@ function RouteComponent() {
         <RegisterCredentialsForm />
         <div className="mt-4 text-center">
           Already have an account?{' '}
-          <Link to="/login" className="underline">
-            Log in
+          <Link to={appConfig.authRoutes.signin} className="underline">
+            Sign in
           </Link>
           !
         </div>

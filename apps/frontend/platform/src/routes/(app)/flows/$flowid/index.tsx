@@ -10,9 +10,9 @@ import {
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
-import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
+import { flowsLinkOptions } from '@/routes/(app)/flows/-validations/flows-link-options';
 
-export const Route = createFileRoute('/_protected/flows/$flowid/')({
+export const Route = createFileRoute('/(app)/flows/$flowid/')({
   loader: ({ params }) =>
     queryClient.ensureQueryData(
       apiClient.flows.one.queryOptions({ input: { id: params.flowid } }),

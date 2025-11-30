@@ -1,0 +1,20 @@
+{
+  "name": "@repo/config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./app": "./src/app-config.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .nx dist node_modules",
+    "dev": "tsc",
+    "format": "biome format ./src",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

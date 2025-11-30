@@ -25,15 +25,15 @@ import {
 import * as v from 'valibot';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';
-import CreateFlowButton from '@/routes/_protected/flows/-components/create-flow';
-import DeleteFlowButton from '@/routes/_protected/flows/-components/delete-flow';
+import CreateFlowButton from '@/routes/(app)/flows/-components/create-flow';
+import DeleteFlowButton from '@/routes/(app)/flows/-components/delete-flow';
 import {
   type FlowSearchSchema,
   flowsSearchDefaults,
   flowsSearchSchema,
-} from '@/routes/_protected/flows/-validations/flows-link-options';
+} from '@/routes/(app)/flows/-validations/flows-link-options';
 
-export const Route = createFileRoute('/_protected/flows/')({
+export const Route = createFileRoute('/(app)/flows/')({
   loader: () => queryClient.ensureQueryData(apiClient.flows.all.queryOptions()),
   component: RouteComponent,
   validateSearch: (input: SearchSchemaInput) =>
@@ -88,7 +88,7 @@ function RouteComponent() {
   const search = Route.useSearch();
 
   const updateFilters = (name: keyof FlowSearchSchema, value: unknown) => {
-    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+    navigate({ search: (prev: FlowSearchSchema) => ({ ...prev, [name]: value }) });
   };
 
   /**

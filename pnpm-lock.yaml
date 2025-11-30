@@ -341,6 +341,9 @@ importers:
       '@repo/auth':
         specifier: workspace:*
         version: link:../../../packages/auth
+      '@repo/config':
+        specifier: workspace:*
+        version: link:../../../packages/config
       '@repo/router':
         specifier: workspace:*
         version: link:../../../packages/router
@@ -491,6 +494,15 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  packages/config:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../tools/typescript
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

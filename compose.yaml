@@ -26,7 +26,7 @@ services:
       - 3035:3000
     environment:
       - SERVER_AUTH_SECRET=${SERVER_AUTH_SECRET:-please_change_this_in_production}
-      - SERVER_POSTGRES_URL=postgres://postgres:postgres@db:5432/postgres
+      - SERVER_POSTGRES_URL=postgres://postgres:postgres@db:5431/postgres
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=3000
       - PUBLIC_WEB_URL=http://localhost:8085
@@ -46,7 +46,7 @@ services:
   db:
     image: docker.io/postgres:18
     ports:
-      - 5432:5432
+      - 5431:5432
     command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres
@@ -67,7 +67,7 @@ services:
       context: .
       dockerfile: ./packages/db/Dockerfile
     environment:
-      - DB_POSTGRES_URL=postgres://postgres:postgres@db:5432/postgres
+      - DB_POSTGRES_URL=postgres://postgres:postgres@db:5431/postgres
       - TURBO_UI=true
     profiles:
       # Using profiles to avoid starting this container by default.

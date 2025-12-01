@@ -1,7 +1,10 @@
+import type { Subscription } from '@repo/db/schema';
 import { queryOptions } from '@tanstack/react-query';
-import { type AuthClientOptions, createAuthClient } from './client';
+import { type AuthClient, type AuthClientOptions, createAuthClient } from './client';
 
-export type AuthClient = ReturnType<typeof createAuthClient>;
+// Re-export types
+export type { AuthClient } from './client';
+export type { Subscription } from '@repo/db/schema';
 
 export type AuthSession = AuthClient['$Infer']['Session'] | null;
 
@@ -124,16 +127,87 @@ export const createPermissionQueryOptions = (authClient: AuthClient) => ({
     }),
 });
 
-export const createAuthIntegration = (options: AuthClientOptions) => {
+/**
+ * Subscription query options for Stripe subscription management
+ * Only available when Stripe is enabled in the client
+ */
+export const createSubscriptionQueryOptions = (authClient: AuthClient) => ({
+  /**
+   * List all subscriptions for a reference (user or organization)
+   *
+   * @param referenceId - Optional reference ID (defaults to current user)
+   * @returns Query options that resolve to array of subscriptions
+   */
+  list: (referenceId?: string) =>
+    queryOptions({
+      queryKey: ['subscriptions', 'list', referenceId],
+      queryFn: async (): Promise<Subscription[]> => {
+        try {
+          const { data, error } = await authClient.subscription.list({
+            query: referenceId ? { referenceId } : undefined,
+          });
+          if (error) throw error;
+          return (data ?? []) as Subscription[];
+        } catch {
+          return [];
+        }
+      },
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    }),
+
+  /**
+   * Get the active subscription for a reference
+   *
+   * @param referenceId - Optional reference ID (defaults to current user)
+   * @returns Query options that resolve to the active subscription or null
+   */
+  active: (referenceId?: string) =>
+    queryOptions({
+      queryKey: ['subscriptions', 'active', referenceId],
+      queryFn: async (): Promise<Subscription | null> => {
+        try {
+          const { data, error } = await authClient.subscription.list({
+            query: referenceId ? { referenceId } : undefined,
+          });
+          if (error) throw error;
+          const subscriptions = (data ?? []) as Subscription[];
+          return (
+            subscriptions.find(
+              (sub) => sub.status === 'active' || sub.status === 'trialing',
+            ) ?? null
+          );
+        } catch {
+          return null;
+        }
+      },
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    }),
+});
+
+/**
+ * Return type for createAuthIntegration
+ * Explicit type declaration to avoid TypeScript portability issues
+ */
+export interface AuthIntegration {
+  authClient: AuthClient;
+  authQueryOptions: ReturnType<typeof createAuthQueryOptions>;
+  organizationQueryOptions: ReturnType<typeof createOrganizationQueryOptions>;
+  permissionQueryOptions: ReturnType<typeof createPermissionQueryOptions>;
+  subscriptionQueryOptions: ReturnType<typeof createSubscriptionQueryOptions>;
+}
+
+export const createAuthIntegration = (options: AuthClientOptions): AuthIntegration => {
   const authClient = createAuthClient(options);
   const authQueryOptions = createAuthQueryOptions(authClient);
   const organizationQueryOptions = createOrganizationQueryOptions(authClient);
   const permissionQueryOptions = createPermissionQueryOptions(authClient);
+  const subscriptionQueryOptions = createSubscriptionQueryOptions(authClient);
 
   return {
     authClient,
     authQueryOptions,
     organizationQueryOptions,
     permissionQueryOptions,
+    subscriptionQueryOptions,
   };
 };

@@ -53,6 +53,7 @@
     "@radix-ui/react-tooltip": "catalog:",
     "@tabler/icons-react": "catalog:",
     "class-variance-authority": "catalog:",
+    "cmdk": "^1.1.1",
     "input-otp": "catalog:",
     "lucide-react": "catalog:",
     "next-themes": "catalog:",

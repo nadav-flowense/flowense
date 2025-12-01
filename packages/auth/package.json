@@ -18,9 +18,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/stripe": "catalog:",
     "@repo/db": "workspace:*",
     "@tanstack/react-query": "catalog:",
     "better-auth": "catalog:",
+    "stripe": "catalog:",
     "url-join": "catalog:"
   },
   "devDependencies": {

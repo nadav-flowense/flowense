@@ -64,11 +64,11 @@ export function CreateOrganizationForm({
                     field.handleChange(e.target.value);
                     // Auto-generate slug from name
                     const slugField = form.getFieldValue('slug');
-                    if (!slugField || slugField === generateSlug(field.state.value)) {
-                      form.setFieldValue(
-                        'slug',
-                        generateSlug(e.target.value),
-                      );
+                    if (
+                      !slugField ||
+                      slugField === generateSlug(field.state.value)
+                    ) {
+                      form.setFieldValue('slug', generateSlug(e.target.value));
                     }
                   }}
                   placeholder="My Company"

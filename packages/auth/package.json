@@ -5,7 +5,8 @@
   "exports": {
     "./client": "./src/client.ts",
     "./client-query": "./src/client-query.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./permissions": "./src/permissions/index.ts"
   },
   "scripts": {
     "build": "tsc",

@@ -13,6 +13,10 @@
       "types": "./dist/src/lib/*.d.ts",
       "default": "./src/lib/*.ts"
     },
+    "./hooks/*": {
+      "types": "./dist/src/hooks/*.d.ts",
+      "default": "./src/hooks/*.ts"
+    },
     "./components/*": {
       "types": "./dist/src/components/*.d.ts",
       "default": "./src/components/*.tsx"

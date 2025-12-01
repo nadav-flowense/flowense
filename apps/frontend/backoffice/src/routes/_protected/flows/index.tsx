@@ -88,7 +88,7 @@ function RouteComponent() {
   const search = Route.useSearch();
 
   const updateFilters = (name: keyof FlowSearchSchema, value: unknown) => {
-    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+    navigate({ search: (prev: FlowSearchSchema) => ({ ...prev, [name]: value }) });
   };
 
   /**

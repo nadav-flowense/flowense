@@ -15,8 +15,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as ProtectedFlowsIndexRouteImport } from './routes/_protected/flows/index'
+import { Route as ProtectedDocsIndexRouteImport } from './routes/_protected/docs/index'
 import { Route as ProtectedDiagramsIndexRouteImport } from './routes/_protected/diagrams/index'
 import { Route as ProtectedFlowsFlowidIndexRouteImport } from './routes/_protected/flows/$flowid/index'
+import { Route as ProtectedDocsSlugIndexRouteImport } from './routes/_protected/docs/$slug/index'
 
 const PublicLayoutRoute = PublicLayoutRouteImport.update({
   id: '/_public',
@@ -46,6 +48,11 @@ const ProtectedFlowsIndexRoute = ProtectedFlowsIndexRouteImport.update({
   path: '/flows/',
   getParentRoute: () => ProtectedLayoutRoute,
 } as any)
+const ProtectedDocsIndexRoute = ProtectedDocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
+  getParentRoute: () => ProtectedLayoutRoute,
+} as any)
 const ProtectedDiagramsIndexRoute = ProtectedDiagramsIndexRouteImport.update({
   id: '/diagrams/',
   path: '/diagrams/',
@@ -57,13 +64,20 @@ const ProtectedFlowsFlowidIndexRoute =
     path: '/flows/$flowid/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
+const ProtectedDocsSlugIndexRoute = ProtectedDocsSlugIndexRouteImport.update({
+  id: '/docs/$slug/',
+  path: '/docs/$slug/',
+  getParentRoute: () => ProtectedLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/diagrams': typeof ProtectedDiagramsIndexRoute
+  '/docs': typeof ProtectedDocsIndexRoute
   '/flows': typeof ProtectedFlowsIndexRoute
+  '/docs/$slug': typeof ProtectedDocsSlugIndexRoute
   '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRoutesByTo {
@@ -71,7 +85,9 @@ export interface FileRoutesByTo {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/diagrams': typeof ProtectedDiagramsIndexRoute
+  '/docs': typeof ProtectedDocsIndexRoute
   '/flows': typeof ProtectedFlowsIndexRoute
+  '/docs/$slug': typeof ProtectedDocsSlugIndexRoute
   '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRoutesById {
@@ -82,7 +98,9 @@ export interface FileRoutesById {
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_protected/diagrams/': typeof ProtectedDiagramsIndexRoute
+  '/_protected/docs/': typeof ProtectedDocsIndexRoute
   '/_protected/flows/': typeof ProtectedFlowsIndexRoute
+  '/_protected/docs/$slug/': typeof ProtectedDocsSlugIndexRoute
   '/_protected/flows/$flowid/': typeof ProtectedFlowsFlowidIndexRoute
 }
 export interface FileRouteTypes {
@@ -92,10 +110,20 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/diagrams'
+    | '/docs'
     | '/flows'
+    | '/docs/$slug'
     | '/flows/$flowid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/diagrams' | '/flows' | '/flows/$flowid'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/diagrams'
+    | '/docs'
+    | '/flows'
+    | '/docs/$slug'
+    | '/flows/$flowid'
   id:
     | '__root__'
     | '/'
@@ -104,7 +132,9 @@ export interface FileRouteTypes {
     | '/_public/login'
     | '/_public/register'
     | '/_protected/diagrams/'
+    | '/_protected/docs/'
     | '/_protected/flows/'
+    | '/_protected/docs/$slug/'
     | '/_protected/flows/$flowid/'
   fileRoutesById: FileRoutesById
 }
@@ -158,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedFlowsIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
+    '/_protected/docs/': {
+      id: '/_protected/docs/'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof ProtectedDocsIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
     '/_protected/diagrams/': {
       id: '/_protected/diagrams/'
       path: '/diagrams'
@@ -172,18 +209,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedFlowsFlowidIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
+    '/_protected/docs/$slug/': {
+      id: '/_protected/docs/$slug/'
+      path: '/docs/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof ProtectedDocsSlugIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
   }
 }
 
 interface ProtectedLayoutRouteChildren {
   ProtectedDiagramsIndexRoute: typeof ProtectedDiagramsIndexRoute
+  ProtectedDocsIndexRoute: typeof ProtectedDocsIndexRoute
   ProtectedFlowsIndexRoute: typeof ProtectedFlowsIndexRoute
+  ProtectedDocsSlugIndexRoute: typeof ProtectedDocsSlugIndexRoute
   ProtectedFlowsFlowidIndexRoute: typeof ProtectedFlowsFlowidIndexRoute
 }
 
 const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedDiagramsIndexRoute: ProtectedDiagramsIndexRoute,
+  ProtectedDocsIndexRoute: ProtectedDocsIndexRoute,
   ProtectedFlowsIndexRoute: ProtectedFlowsIndexRoute,
+  ProtectedDocsSlugIndexRoute: ProtectedDocsSlugIndexRoute,
   ProtectedFlowsFlowidIndexRoute: ProtectedFlowsFlowidIndexRoute,
 }
 

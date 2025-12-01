@@ -2,6 +2,7 @@ import { ExitIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import { ChevronUp, type LucideIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType, ReactNode } from 'react';
+import type { Permission } from '../hooks/use-permission';
 import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 import {
   DropdownMenu,
@@ -46,6 +47,11 @@ export interface NavItem {
   title: string;
   href: string;
   icon: LucideIcon;
+  /**
+   * Optional permission required to see this nav item
+   * If not provided, the item is always visible
+   */
+  requiredPermission?: Permission;
 }
 
 export interface AppSidebarUser {
@@ -54,12 +60,28 @@ export interface AppSidebarUser {
   image?: string | null | undefined;
 }
 
+/**
+ * Result of a permission check for a nav item
+ */
+export interface NavItemPermissionResult {
+  /** The href of the nav item */
+  href: string;
+  /** Whether the user has permission */
+  hasPermission: boolean;
+}
+
 export interface AppSidebarProps {
   navItems: NavItem[];
   user: AppSidebarUser;
   currentPath: string;
   onSignOut: () => Promise<unknown>;
   LinkComponent: ComponentType<{ to: string; children: ReactNode }>;
+  /**
+   * Optional map of permission check results for nav items
+   * Key is the nav item href, value is whether user has permission
+   * Items without a requiredPermission or missing from this map are shown
+   */
+  permissionResults?: NavItemPermissionResult[];
 }
 
 export function AppSidebar({
@@ -68,8 +90,25 @@ export function AppSidebar({
   currentPath,
   onSignOut,
   LinkComponent,
+  permissionResults,
 }: Readonly<AppSidebarProps>) {
   const { isIconMode } = useSidebar();
+
+  // Filter nav items based on permissions
+  const visibleNavItems = navItems.filter((item) => {
+    // If no permission required, always show
+    if (!item.requiredPermission) {
+      return true;
+    }
+    // If no permission results provided, show all items (graceful fallback)
+    if (!permissionResults) {
+      return true;
+    }
+    // Check if user has permission for this item
+    const result = permissionResults.find((r) => r.href === item.href);
+    // If no result found for this item, show it (graceful fallback)
+    return result?.hasPermission ?? true;
+  });
 
   return (
     <Sidebar>
@@ -81,7 +120,7 @@ export function AppSidebar({
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
+              {visibleNavItems.map((item) => {
                 const isActive =
                   item.href === '/'
                     ? currentPath === '/'

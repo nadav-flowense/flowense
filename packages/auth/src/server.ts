@@ -4,6 +4,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, openAPI, organization } from 'better-auth/plugins';
 import urlJoin from 'url-join';
 
+import { appAc, appRoles, orgAc, orgRoles } from './permissions';
+
 export interface AuthOptions {
   platformUrl: string;
   backofficeUrl: string;
@@ -32,7 +34,25 @@ export const createAuth = ({
     trustedOrigins: [platformUrl, backofficeUrl].map(
       (url) => new URL(url).origin,
     ),
-    plugins: [openAPI(), admin(), organization()],
+    plugins: [
+      openAPI(),
+      // App-level RBAC (backoffice)
+      admin({
+        ac: appAc,
+        roles: appRoles,
+        defaultRole: 'member',
+      }),
+      // Organization-level RBAC (platform)
+      organization({
+        ac: orgAc,
+        roles: orgRoles,
+        allowUserToCreateOrganization: true,
+        creatorRole: 'owner',
+        membershipLimit: 50,
+        organizationLimit: 5,
+        invitationExpiresIn: 60 * 60 * 48, // 48 hours
+      }),
+    ],
     onAPIError: {
       throw: true,
       onError: (error) => {

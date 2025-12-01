@@ -212,7 +212,7 @@ const SidebarGroup = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('flex w-full min-w-0 flex-col px-2', className)}
+      className={cn('flex w-full min-w-0 flex-col', className)}
       {...props}
     />
   );
@@ -297,10 +297,10 @@ const SidebarMenuButton = React.forwardRef<
         ref={ref}
         data-active={isActive}
         className={cn(
-          'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-colors',
+          'flex w-full items-center gap-2 overflow-hidden p-2 text-left outline-none transition-colors',
           'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
           'focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-          'data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground',
+          'data-[active=true]:bg-sidebar-accent',
           isIconMode && 'justify-center',
           size === 'default' && 'h-9 text-sm',
           size === 'sm' && 'h-8 text-xs',

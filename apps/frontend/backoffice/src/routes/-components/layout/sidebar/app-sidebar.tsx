@@ -3,7 +3,7 @@ import {
   type NavItem,
 } from '@repo/ui/components/app-sidebar';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { FileText, GitBranch, Home } from 'lucide-react';
+import { BookOpen, FileText, GitBranch, Home } from 'lucide-react';
 import type { AuthSession } from '@/clients/authClient';
 import { authClient } from '@/clients/authClient';
 
@@ -22,6 +22,11 @@ const navItems: NavItem[] = [
     title: 'Diagrams',
     href: '/diagrams',
     icon: GitBranch,
+  },
+  {
+    title: 'Documentation',
+    href: '/docs',
+    icon: BookOpen,
   },
 ];
 

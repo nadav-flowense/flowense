@@ -9,20 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PublicLayoutRouteImport } from './routes/_public/layout'
-import { Route as ProtectedLayoutRouteImport } from './routes/_protected/layout'
+import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
+import { Route as appLayoutRouteImport } from './routes/(app)/layout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PublicRegisterRouteImport } from './routes/_public/register'
-import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ProtectedFlowsIndexRouteImport } from './routes/_protected/flows/index'
-import { Route as ProtectedFlowsFlowidIndexRouteImport } from './routes/_protected/flows/$flowid/index'
+import { Route as authSignupRouteImport } from './routes/(auth)/signup'
+import { Route as authSigninRouteImport } from './routes/(auth)/signin'
+import { Route as appOnboardingRouteImport } from './routes/(app)/onboarding'
+import { Route as appOrganizationsIndexRouteImport } from './routes/(app)/organizations/index'
+import { Route as appFlowsIndexRouteImport } from './routes/(app)/flows/index'
+import { Route as appOrganizationsCreateRouteImport } from './routes/(app)/organizations/create'
+import { Route as appFlowsFlowidIndexRouteImport } from './routes/(app)/flows/$flowid/index'
 
-const PublicLayoutRoute = PublicLayoutRouteImport.update({
-  id: '/_public',
+const authLayoutRoute = authLayoutRouteImport.update({
+  id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedLayoutRoute = ProtectedLayoutRouteImport.update({
-  id: '/_protected',
+const appLayoutRoute = appLayoutRouteImport.update({
+  id: '/(app)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -30,88 +33,130 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicRegisterRoute = PublicRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => PublicLayoutRoute,
+const authSignupRoute = authSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => authLayoutRoute,
 } as any)
-const PublicLoginRoute = PublicLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => PublicLayoutRoute,
+const authSigninRoute = authSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => authLayoutRoute,
 } as any)
-const ProtectedFlowsIndexRoute = ProtectedFlowsIndexRouteImport.update({
+const appOnboardingRoute = appOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => appLayoutRoute,
+} as any)
+const appOrganizationsIndexRoute = appOrganizationsIndexRouteImport.update({
+  id: '/organizations/',
+  path: '/organizations/',
+  getParentRoute: () => appLayoutRoute,
+} as any)
+const appFlowsIndexRoute = appFlowsIndexRouteImport.update({
   id: '/flows/',
   path: '/flows/',
-  getParentRoute: () => ProtectedLayoutRoute,
+  getParentRoute: () => appLayoutRoute,
 } as any)
-const ProtectedFlowsFlowidIndexRoute =
-  ProtectedFlowsFlowidIndexRouteImport.update({
-    id: '/flows/$flowid/',
-    path: '/flows/$flowid/',
-    getParentRoute: () => ProtectedLayoutRoute,
-  } as any)
+const appOrganizationsCreateRoute = appOrganizationsCreateRouteImport.update({
+  id: '/organizations/create',
+  path: '/organizations/create',
+  getParentRoute: () => appLayoutRoute,
+} as any)
+const appFlowsFlowidIndexRoute = appFlowsFlowidIndexRouteImport.update({
+  id: '/flows/$flowid/',
+  path: '/flows/$flowid/',
+  getParentRoute: () => appLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
-  '/flows': typeof ProtectedFlowsIndexRoute
-  '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
+  '/onboarding': typeof appOnboardingRoute
+  '/signin': typeof authSigninRoute
+  '/signup': typeof authSignupRoute
+  '/organizations/create': typeof appOrganizationsCreateRoute
+  '/flows': typeof appFlowsIndexRoute
+  '/organizations': typeof appOrganizationsIndexRoute
+  '/flows/$flowid': typeof appFlowsFlowidIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
-  '/flows': typeof ProtectedFlowsIndexRoute
-  '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
+  '/onboarding': typeof appOnboardingRoute
+  '/signin': typeof authSigninRoute
+  '/signup': typeof authSignupRoute
+  '/organizations/create': typeof appOrganizationsCreateRoute
+  '/flows': typeof appFlowsIndexRoute
+  '/organizations': typeof appOrganizationsIndexRoute
+  '/flows/$flowid': typeof appFlowsFlowidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_protected': typeof ProtectedLayoutRouteWithChildren
-  '/_public': typeof PublicLayoutRouteWithChildren
-  '/_public/login': typeof PublicLoginRoute
-  '/_public/register': typeof PublicRegisterRoute
-  '/_protected/flows/': typeof ProtectedFlowsIndexRoute
-  '/_protected/flows/$flowid/': typeof ProtectedFlowsFlowidIndexRoute
+  '/(app)': typeof appLayoutRouteWithChildren
+  '/(auth)': typeof authLayoutRouteWithChildren
+  '/(app)/onboarding': typeof appOnboardingRoute
+  '/(auth)/signin': typeof authSigninRoute
+  '/(auth)/signup': typeof authSignupRoute
+  '/(app)/organizations/create': typeof appOrganizationsCreateRoute
+  '/(app)/flows/': typeof appFlowsIndexRoute
+  '/(app)/organizations/': typeof appOrganizationsIndexRoute
+  '/(app)/flows/$flowid/': typeof appFlowsFlowidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/flows' | '/flows/$flowid'
+  fullPaths:
+    | '/'
+    | '/onboarding'
+    | '/signin'
+    | '/signup'
+    | '/organizations/create'
+    | '/flows'
+    | '/organizations'
+    | '/flows/$flowid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/flows' | '/flows/$flowid'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/signin'
+    | '/signup'
+    | '/organizations/create'
+    | '/flows'
+    | '/organizations'
+    | '/flows/$flowid'
   id:
     | '__root__'
     | '/'
-    | '/_protected'
-    | '/_public'
-    | '/_public/login'
-    | '/_public/register'
-    | '/_protected/flows/'
-    | '/_protected/flows/$flowid/'
+    | '/(app)'
+    | '/(auth)'
+    | '/(app)/onboarding'
+    | '/(auth)/signin'
+    | '/(auth)/signup'
+    | '/(app)/organizations/create'
+    | '/(app)/flows/'
+    | '/(app)/organizations/'
+    | '/(app)/flows/$flowid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProtectedLayoutRoute: typeof ProtectedLayoutRouteWithChildren
-  PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
+  appLayoutRoute: typeof appLayoutRouteWithChildren
+  authLayoutRoute: typeof authLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_public': {
-      id: '/_public'
+    '/(auth)': {
+      id: '/(auth)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof PublicLayoutRouteImport
+      preLoaderRoute: typeof authLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected': {
-      id: '/_protected'
+    '/(app)': {
+      id: '/(app)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof ProtectedLayoutRouteImport
+      preLoaderRoute: typeof appLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -121,69 +166,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/register': {
-      id: '/_public/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof PublicRegisterRouteImport
-      parentRoute: typeof PublicLayoutRoute
+    '/(auth)/signup': {
+      id: '/(auth)/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authSignupRouteImport
+      parentRoute: typeof authLayoutRoute
     }
-    '/_public/login': {
-      id: '/_public/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof PublicLoginRouteImport
-      parentRoute: typeof PublicLayoutRoute
+    '/(auth)/signin': {
+      id: '/(auth)/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof authSigninRouteImport
+      parentRoute: typeof authLayoutRoute
     }
-    '/_protected/flows/': {
-      id: '/_protected/flows/'
+    '/(app)/onboarding': {
+      id: '/(app)/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof appOnboardingRouteImport
+      parentRoute: typeof appLayoutRoute
+    }
+    '/(app)/organizations/': {
+      id: '/(app)/organizations/'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof appOrganizationsIndexRouteImport
+      parentRoute: typeof appLayoutRoute
+    }
+    '/(app)/flows/': {
+      id: '/(app)/flows/'
       path: '/flows'
       fullPath: '/flows'
-      preLoaderRoute: typeof ProtectedFlowsIndexRouteImport
-      parentRoute: typeof ProtectedLayoutRoute
+      preLoaderRoute: typeof appFlowsIndexRouteImport
+      parentRoute: typeof appLayoutRoute
     }
-    '/_protected/flows/$flowid/': {
-      id: '/_protected/flows/$flowid/'
+    '/(app)/organizations/create': {
+      id: '/(app)/organizations/create'
+      path: '/organizations/create'
+      fullPath: '/organizations/create'
+      preLoaderRoute: typeof appOrganizationsCreateRouteImport
+      parentRoute: typeof appLayoutRoute
+    }
+    '/(app)/flows/$flowid/': {
+      id: '/(app)/flows/$flowid/'
       path: '/flows/$flowid'
       fullPath: '/flows/$flowid'
-      preLoaderRoute: typeof ProtectedFlowsFlowidIndexRouteImport
-      parentRoute: typeof ProtectedLayoutRoute
+      preLoaderRoute: typeof appFlowsFlowidIndexRouteImport
+      parentRoute: typeof appLayoutRoute
     }
   }
 }
 
-interface ProtectedLayoutRouteChildren {
-  ProtectedFlowsIndexRoute: typeof ProtectedFlowsIndexRoute
-  ProtectedFlowsFlowidIndexRoute: typeof ProtectedFlowsFlowidIndexRoute
+interface appLayoutRouteChildren {
+  appOnboardingRoute: typeof appOnboardingRoute
+  appOrganizationsCreateRoute: typeof appOrganizationsCreateRoute
+  appFlowsIndexRoute: typeof appFlowsIndexRoute
+  appOrganizationsIndexRoute: typeof appOrganizationsIndexRoute
+  appFlowsFlowidIndexRoute: typeof appFlowsFlowidIndexRoute
 }
 
-const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
-  ProtectedFlowsIndexRoute: ProtectedFlowsIndexRoute,
-  ProtectedFlowsFlowidIndexRoute: ProtectedFlowsFlowidIndexRoute,
+const appLayoutRouteChildren: appLayoutRouteChildren = {
+  appOnboardingRoute: appOnboardingRoute,
+  appOrganizationsCreateRoute: appOrganizationsCreateRoute,
+  appFlowsIndexRoute: appFlowsIndexRoute,
+  appOrganizationsIndexRoute: appOrganizationsIndexRoute,
+  appFlowsFlowidIndexRoute: appFlowsFlowidIndexRoute,
 }
 
-const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(
-  ProtectedLayoutRouteChildren,
+const appLayoutRouteWithChildren = appLayoutRoute._addFileChildren(
+  appLayoutRouteChildren,
 )
 
-interface PublicLayoutRouteChildren {
-  PublicLoginRoute: typeof PublicLoginRoute
-  PublicRegisterRoute: typeof PublicRegisterRoute
+interface authLayoutRouteChildren {
+  authSigninRoute: typeof authSigninRoute
+  authSignupRoute: typeof authSignupRoute
 }
 
-const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
-  PublicLoginRoute: PublicLoginRoute,
-  PublicRegisterRoute: PublicRegisterRoute,
+const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authSigninRoute: authSigninRoute,
+  authSignupRoute: authSignupRoute,
 }
 
-const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
-  PublicLayoutRouteChildren,
+const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
+  authLayoutRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProtectedLayoutRoute: ProtectedLayoutRouteWithChildren,
-  PublicLayoutRoute: PublicLayoutRouteWithChildren,
+  appLayoutRoute: appLayoutRouteWithChildren,
+  authLayoutRoute: authLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -10,7 +10,8 @@ import { useTheme } from 'next-themes';
 import urlJoin from 'url-join';
 import { authClient } from '@/clients/authClient';
 import { env } from '@/env';
-import { flowsLinkOptions } from '@/routes/_protected/flows/-validations/flows-link-options';
+import { appConfig } from '@repo/config/app';
+import { flowsLinkOptions } from '@/routes/(app)/flows/-validations/flows-link-options';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -95,8 +96,8 @@ function RouteComponent() {
       {!session?.user && (
         <div className="mt-4">
           Please{' '}
-          <Link to="/login" className="underline font-bold">
-            log in
+          <Link to={appConfig.authRoutes.signin} className="underline font-bold">
+            sign in
           </Link>
           .
         </div>

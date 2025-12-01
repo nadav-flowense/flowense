@@ -20,6 +20,10 @@
     "./components/auth": {
       "types": "./dist/src/components/auth/index.d.ts",
       "default": "./src/components/auth/index.ts"
+    },
+    "./components/organization": {
+      "types": "./dist/src/components/organization/index.d.ts",
+      "default": "./src/components/organization/index.ts"
     }
   },
   "scripts": {

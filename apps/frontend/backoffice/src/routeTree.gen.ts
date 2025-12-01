@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicLayoutRouteImport } from './routes/_public/layout'
 import { Route as ProtectedLayoutRouteImport } from './routes/_protected/layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicUnauthorizedRouteImport } from './routes/_public/unauthorized'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
+import { Route as ProtectedUsersIndexRouteImport } from './routes/_protected/users/index'
+import { Route as ProtectedProfileIndexRouteImport } from './routes/_protected/profile/index'
 import { Route as ProtectedFlowsIndexRouteImport } from './routes/_protected/flows/index'
 import { Route as ProtectedDocsIndexRouteImport } from './routes/_protected/docs/index'
 import { Route as ProtectedDiagramsIndexRouteImport } from './routes/_protected/diagrams/index'
@@ -33,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicUnauthorizedRoute = PublicUnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => PublicLayoutRoute,
+} as any)
 const PublicRegisterRoute = PublicRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -42,6 +50,16 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => PublicLayoutRoute,
+} as any)
+const ProtectedUsersIndexRoute = ProtectedUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => ProtectedLayoutRoute,
+} as any)
+const ProtectedProfileIndexRoute = ProtectedProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => ProtectedLayoutRoute,
 } as any)
 const ProtectedFlowsIndexRoute = ProtectedFlowsIndexRouteImport.update({
   id: '/flows/',
@@ -74,9 +92,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/unauthorized': typeof PublicUnauthorizedRoute
   '/diagrams': typeof ProtectedDiagramsIndexRoute
   '/docs': typeof ProtectedDocsIndexRoute
   '/flows': typeof ProtectedFlowsIndexRoute
+  '/profile': typeof ProtectedProfileIndexRoute
+  '/users': typeof ProtectedUsersIndexRoute
   '/docs/$slug': typeof ProtectedDocsSlugIndexRoute
   '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
@@ -84,9 +105,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/unauthorized': typeof PublicUnauthorizedRoute
   '/diagrams': typeof ProtectedDiagramsIndexRoute
   '/docs': typeof ProtectedDocsIndexRoute
   '/flows': typeof ProtectedFlowsIndexRoute
+  '/profile': typeof ProtectedProfileIndexRoute
+  '/users': typeof ProtectedUsersIndexRoute
   '/docs/$slug': typeof ProtectedDocsSlugIndexRoute
   '/flows/$flowid': typeof ProtectedFlowsFlowidIndexRoute
 }
@@ -97,9 +121,12 @@ export interface FileRoutesById {
   '/_public': typeof PublicLayoutRouteWithChildren
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
+  '/_public/unauthorized': typeof PublicUnauthorizedRoute
   '/_protected/diagrams/': typeof ProtectedDiagramsIndexRoute
   '/_protected/docs/': typeof ProtectedDocsIndexRoute
   '/_protected/flows/': typeof ProtectedFlowsIndexRoute
+  '/_protected/profile/': typeof ProtectedProfileIndexRoute
+  '/_protected/users/': typeof ProtectedUsersIndexRoute
   '/_protected/docs/$slug/': typeof ProtectedDocsSlugIndexRoute
   '/_protected/flows/$flowid/': typeof ProtectedFlowsFlowidIndexRoute
 }
@@ -109,9 +136,12 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/unauthorized'
     | '/diagrams'
     | '/docs'
     | '/flows'
+    | '/profile'
+    | '/users'
     | '/docs/$slug'
     | '/flows/$flowid'
   fileRoutesByTo: FileRoutesByTo
@@ -119,9 +149,12 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/unauthorized'
     | '/diagrams'
     | '/docs'
     | '/flows'
+    | '/profile'
+    | '/users'
     | '/docs/$slug'
     | '/flows/$flowid'
   id:
@@ -131,9 +164,12 @@ export interface FileRouteTypes {
     | '/_public'
     | '/_public/login'
     | '/_public/register'
+    | '/_public/unauthorized'
     | '/_protected/diagrams/'
     | '/_protected/docs/'
     | '/_protected/flows/'
+    | '/_protected/profile/'
+    | '/_protected/users/'
     | '/_protected/docs/$slug/'
     | '/_protected/flows/$flowid/'
   fileRoutesById: FileRoutesById
@@ -167,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_public/unauthorized': {
+      id: '/_public/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof PublicUnauthorizedRouteImport
+      parentRoute: typeof PublicLayoutRoute
+    }
     '/_public/register': {
       id: '/_public/register'
       path: '/register'
@@ -180,6 +223,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicLayoutRoute
+    }
+    '/_protected/users/': {
+      id: '/_protected/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof ProtectedUsersIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
+    '/_protected/profile/': {
+      id: '/_protected/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProtectedProfileIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
     '/_protected/flows/': {
       id: '/_protected/flows/'
@@ -223,6 +280,8 @@ interface ProtectedLayoutRouteChildren {
   ProtectedDiagramsIndexRoute: typeof ProtectedDiagramsIndexRoute
   ProtectedDocsIndexRoute: typeof ProtectedDocsIndexRoute
   ProtectedFlowsIndexRoute: typeof ProtectedFlowsIndexRoute
+  ProtectedProfileIndexRoute: typeof ProtectedProfileIndexRoute
+  ProtectedUsersIndexRoute: typeof ProtectedUsersIndexRoute
   ProtectedDocsSlugIndexRoute: typeof ProtectedDocsSlugIndexRoute
   ProtectedFlowsFlowidIndexRoute: typeof ProtectedFlowsFlowidIndexRoute
 }
@@ -231,6 +290,8 @@ const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedDiagramsIndexRoute: ProtectedDiagramsIndexRoute,
   ProtectedDocsIndexRoute: ProtectedDocsIndexRoute,
   ProtectedFlowsIndexRoute: ProtectedFlowsIndexRoute,
+  ProtectedProfileIndexRoute: ProtectedProfileIndexRoute,
+  ProtectedUsersIndexRoute: ProtectedUsersIndexRoute,
   ProtectedDocsSlugIndexRoute: ProtectedDocsSlugIndexRoute,
   ProtectedFlowsFlowidIndexRoute: ProtectedFlowsFlowidIndexRoute,
 }
@@ -242,11 +303,13 @@ const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(
 interface PublicLayoutRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
+  PublicUnauthorizedRoute: typeof PublicUnauthorizedRoute
 }
 
 const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
   PublicRegisterRoute: PublicRegisterRoute,
+  PublicUnauthorizedRoute: PublicUnauthorizedRoute,
 }
 
 const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(

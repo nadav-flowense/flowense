@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as appLayoutRouteImport } from './routes/(app)/layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as authUnauthorizedRouteImport } from './routes/(auth)/unauthorized'
 import { Route as authSignupRouteImport } from './routes/(auth)/signup'
 import { Route as authSigninRouteImport } from './routes/(auth)/signin'
 import { Route as appOnboardingRouteImport } from './routes/(app)/onboarding'
@@ -32,6 +33,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const authUnauthorizedRoute = authUnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => authLayoutRoute,
 } as any)
 const authSignupRoute = authSignupRouteImport.update({
   id: '/signup',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof appOnboardingRoute
   '/signin': typeof authSigninRoute
   '/signup': typeof authSignupRoute
+  '/unauthorized': typeof authUnauthorizedRoute
   '/organizations/create': typeof appOrganizationsCreateRoute
   '/flows': typeof appFlowsIndexRoute
   '/organizations': typeof appOrganizationsIndexRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof appOnboardingRoute
   '/signin': typeof authSigninRoute
   '/signup': typeof authSignupRoute
+  '/unauthorized': typeof authUnauthorizedRoute
   '/organizations/create': typeof appOrganizationsCreateRoute
   '/flows': typeof appFlowsIndexRoute
   '/organizations': typeof appOrganizationsIndexRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/(app)/onboarding': typeof appOnboardingRoute
   '/(auth)/signin': typeof authSigninRoute
   '/(auth)/signup': typeof authSignupRoute
+  '/(auth)/unauthorized': typeof authUnauthorizedRoute
   '/(app)/organizations/create': typeof appOrganizationsCreateRoute
   '/(app)/flows/': typeof appFlowsIndexRoute
   '/(app)/organizations/': typeof appOrganizationsIndexRoute
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/unauthorized'
     | '/organizations/create'
     | '/flows'
     | '/organizations'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/unauthorized'
     | '/organizations/create'
     | '/flows'
     | '/organizations'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/(app)/onboarding'
     | '/(auth)/signin'
     | '/(auth)/signup'
+    | '/(auth)/unauthorized'
     | '/(app)/organizations/create'
     | '/(app)/flows/'
     | '/(app)/organizations/'
@@ -165,6 +177,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/unauthorized': {
+      id: '/(auth)/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof authUnauthorizedRouteImport
+      parentRoute: typeof authLayoutRoute
     }
     '/(auth)/signup': {
       id: '/(auth)/signup'
@@ -241,11 +260,13 @@ const appLayoutRouteWithChildren = appLayoutRoute._addFileChildren(
 interface authLayoutRouteChildren {
   authSigninRoute: typeof authSigninRoute
   authSignupRoute: typeof authSignupRoute
+  authUnauthorizedRoute: typeof authUnauthorizedRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
   authSigninRoute: authSigninRoute,
   authSignupRoute: authSignupRoute,
+  authUnauthorizedRoute: authUnauthorizedRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(

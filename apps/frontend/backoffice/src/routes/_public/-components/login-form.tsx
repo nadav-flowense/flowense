@@ -1,9 +1,7 @@
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/input';
-import { Label } from '@repo/ui/components/label';
+import { Button, Input, Label } from '@repo/ui';
 import { useForm } from '@tanstack/react-form';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import * as v from 'valibot';
@@ -21,6 +19,7 @@ const FormSchema = v.object({
 
 export default function LoginCredentialsForm() {
   const navigate = useNavigate();
+  const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const form = useForm({
     defaultValues: {
@@ -37,7 +36,8 @@ export default function LoginCredentialsForm() {
           password: value.password,
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            await router.invalidate();
             navigate({ to: '/' });
           },
         },
@@ -85,33 +85,31 @@ export default function LoginCredentialsForm() {
           children={(field) => (
             <>
               <Label htmlFor={field.name}>Password</Label>
-              <>
-                <div className="flex justify-end items-center relative w-full">
-                  <Input
-                    className="mt-1"
-                    id={field.name}
-                    type={isPasswordVisible ? 'text' : 'password'}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <Button
-                    className="absolute mr-2 w-7 h-7 rounded-full"
-                    type="button"
-                    tabIndex={-1}
-                    variant="ghost"
-                    size="icon"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsPasswordVisible(!isPasswordVisible);
-                    }}
-                  >
-                    {isPasswordVisible ? <EyeOpenIcon /> : <EyeNoneIcon />}
-                  </Button>
-                </div>
-                <FormFieldInfo field={field} />
-              </>
+              <div className="flex justify-end items-center relative w-full">
+                <Input
+                  className="mt-1"
+                  id={field.name}
+                  type={isPasswordVisible ? 'text' : 'password'}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <Button
+                  className="absolute mr-2 w-7 h-7 rounded-full"
+                  type="button"
+                  tabIndex={-1}
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsPasswordVisible(!isPasswordVisible);
+                  }}
+                >
+                  {isPasswordVisible ? <EyeOpenIcon /> : <EyeNoneIcon />}
+                </Button>
+              </div>
+              <FormFieldInfo field={field} />
             </>
           )}
         />

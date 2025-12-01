@@ -1,5 +1,5 @@
+import { Button } from '@repo/ui';
 import { Link } from '@tanstack/react-router';
-import { Button } from '@repo/ui/components/button';
 
 function DefaultNotFound() {
   return (

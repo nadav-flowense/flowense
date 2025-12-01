@@ -2,16 +2,16 @@ import { useForm } from '@tanstack/react-form';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import type { ReactNode } from 'react';
 import { z } from 'zod';
-import { Button } from '#/components/button';
+import { Button } from '../atoms/Button';
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '#/components/field';
-import { Input } from '#/components/input';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '#/components/input-otp';
+} from '../molecules/Field';
+import { Input } from '../atoms/Input';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../molecules/InputOtp';
 
 export type VerifyOtpFormData = {
   otp: string;

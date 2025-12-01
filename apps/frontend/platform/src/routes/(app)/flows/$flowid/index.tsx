@@ -1,12 +1,12 @@
 import { ArrowLeftIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
 import {
+  Button,
   Tooltip,
   TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@repo/ui/components/tooltip';
+} from '@repo/ui';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';

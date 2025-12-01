@@ -1,12 +1,12 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@repo/ui/components/card';
+} from '@repo/ui';
 import { CreateOrganizationForm } from '@repo/ui/components/organization';
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { authClient } from '@/clients/authClient';

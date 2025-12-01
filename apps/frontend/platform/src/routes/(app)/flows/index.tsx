@@ -5,15 +5,15 @@ import {
   TrashIcon,
 } from '@radix-ui/react-icons';
 import type { RouterOutput } from '@repo/api/client';
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/input';
 import {
+  Button,
+  Input,
   Tooltip,
   TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@repo/ui/components/tooltip';
+} from '@repo/ui';
 import { useQuery } from '@tanstack/react-query';
 import {
   createFileRoute,

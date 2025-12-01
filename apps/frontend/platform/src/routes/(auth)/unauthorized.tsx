@@ -1,7 +1,7 @@
+import { appConfig } from '@repo/config/app';
+import { Button } from '@repo/ui';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ShieldX } from 'lucide-react';
-import { appConfig } from '@repo/config/app';
-import { Button } from '@repo/ui/components/button';
 
 export const Route = createFileRoute('/(auth)/unauthorized')({
   component: UnauthorizedPage,

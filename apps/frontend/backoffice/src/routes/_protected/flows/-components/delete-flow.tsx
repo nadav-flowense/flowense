@@ -1,11 +1,11 @@
-import { Button } from '@repo/ui/components/button';
 import {
+  Button,
   Tooltip,
   TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@repo/ui/components/tooltip';
+} from '@repo/ui';
 import { cn } from '@repo/ui/lib/utils';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { ReactNode } from 'react';

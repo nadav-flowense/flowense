@@ -1,7 +1,7 @@
 import { PlusIcon } from '@radix-ui/react-icons';
 import { isDefinedError } from '@repo/api/client';
-import { Button } from '@repo/ui/components/button';
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/dialog';
-import { Input } from '@repo/ui/components/input';
-import { Label } from '@repo/ui/components/label';
-import { Textarea } from '@repo/ui/components/textarea';
+  Input,
+  Label,
+  Textarea,
+} from '@repo/ui';
 import { useForm } from '@tanstack/react-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';

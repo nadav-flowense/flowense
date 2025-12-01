@@ -1,11 +1,11 @@
-import { useQueries } from '@tanstack/react-query';
 import {
   AppSidebar as AppSidebarBase,
-  type NavItem,
   type NavItemPermissionResult,
-} from '@repo/ui/components/app-sidebar';
+  type SidebarNavItem,
+} from '@repo/ui';
+import { useQueries } from '@tanstack/react-query';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { BookOpen, FileText, GitBranch, Home } from 'lucide-react';
+import { Building2, User, Users } from 'lucide-react';
 import type { AuthSession } from '@/clients/authClient';
 import { authClient, permissionQueryOptions } from '@/clients/authClient';
 
@@ -13,31 +13,25 @@ import { authClient, permissionQueryOptions } from '@/clients/authClient';
  * Navigation items with optional permission requirements
  * Items without requiredPermission are always visible
  */
-const navItems: NavItem[] = [
+const navItems: SidebarNavItem[] = [
   {
-    title: 'Home',
+    title: 'Accounts',
     href: '/',
-    icon: Home,
-    // No permission required - accessible to all authenticated users
-  },
-  {
-    title: 'Flows',
-    href: '/flows',
-    icon: FileText,
+    icon: Building2,
     // Requires backoffice access permission
     requiredPermission: { backoffice: ['access'] },
   },
   {
-    title: 'Diagrams',
-    href: '/diagrams',
-    icon: GitBranch,
-    // Requires backoffice access permission
-    requiredPermission: { backoffice: ['access'] },
+    title: 'Backoffice Users',
+    href: '/users',
+    icon: Users,
+    // Requires backoffice admin permission
+    requiredPermission: { backoffice: ['manage'] },
   },
   {
-    title: 'Documentation',
-    href: '/docs',
-    icon: BookOpen,
+    title: 'Profile',
+    href: '/profile',
+    icon: User,
     // No permission required - accessible to all authenticated users
   },
 ];

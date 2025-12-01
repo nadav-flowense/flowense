@@ -1,31 +1,28 @@
 import { Pencil1Icon } from '@radix-ui/react-icons';
+import { appConfig } from '@repo/config/app';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@repo/ui/components/card';
-import { Skeleton } from '@repo/ui/components/skeleton';
+  Skeleton,
+} from '@repo/ui';
 import { CreateOrganizationForm } from '@repo/ui/components/organization';
 import { createFileRoute, Navigate, useRouter } from '@tanstack/react-router';
-import { authClient, authQueryOptions, organizationQueryOptions } from '@/clients/authClient';
+import { authClient, organizationQueryOptions } from '@/clients/authClient';
 import { queryClient } from '@/clients/queryClient';
-import { appConfig } from '@repo/config/app';
 
 export const Route = createFileRoute('/(app)/onboarding')({
   component: RouteComponent,
   pendingComponent: OnboardingSkeleton,
   loader: async ({ context }) => {
-    const [session, organizations] = await Promise.all([
-      context.queryClient.ensureQueryData({
-        ...authQueryOptions(),
-        revalidateIfStale: true,
-      }),
+    const [sessionResult, organizations] = await Promise.all([
+      authClient.getSession(),
       context.queryClient.ensureQueryData(organizationQueryOptions.list()),
     ]);
 
-    return { session, organizations };
+    return { session: sessionResult.data, organizations };
   },
 });
 
@@ -38,14 +35,19 @@ function RouteComponent() {
     return <Navigate to={appConfig.appRoutes.flows} />;
   }
 
-  const handleCreateOrganization = async (data: { name: string; slug: string }) => {
+  const handleCreateOrganization = async (data: {
+    name: string;
+    slug: string;
+  }) => {
     await authClient.organization.create({
       name: data.name,
       slug: data.slug,
     });
 
     // Invalidate organization list cache
-    await queryClient.invalidateQueries({ queryKey: ['organizations', 'list'] });
+    await queryClient.invalidateQueries({
+      queryKey: ['organizations', 'list'],
+    });
 
     // Refresh the router to re-run the loader
     await router.invalidate();

@@ -1,5 +1,6 @@
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
+import { Button } from '@repo/ui';
+
 import { useEffect, useState } from 'react';
 import { codeToHtml } from 'shiki';
 

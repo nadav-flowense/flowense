@@ -1,8 +1,8 @@
 import { useForm } from '@tanstack/react-form';
 import type { ReactNode } from 'react';
 import { z } from 'zod';
-import { Button } from '#/components/button';
-import { Checkbox } from '#/components/checkbox';
+import { Button } from '../atoms/Button';
+import { Checkbox } from '../molecules/Checkbox';
 import {
   Field,
   FieldContent,
@@ -10,8 +10,8 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '#/components/field';
-import { Input } from '#/components/input';
+} from '../molecules/Field';
+import { Input } from '../atoms/Input';
 
 export type ForgotPasswordFormData = {
   email: string;

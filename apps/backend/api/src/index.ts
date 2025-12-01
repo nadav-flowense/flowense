@@ -4,7 +4,7 @@ import { createDb } from '@repo/db/client';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
-import { env } from './env';
+import { env, getStripeConfig } from './env';
 import { generateRootHtml } from './utils';
 
 // ========================================================================= //
@@ -14,6 +14,14 @@ const trustedOrigins = [env.PUBLIC_PLATFORM_URL, env.PUBLIC_BACKOFFICE_URL].map(
 );
 
 const db = createDb({ databaseUrl: env.SERVER_POSTGRES_URL });
+const stripeConfig = getStripeConfig();
+
+if (stripeConfig) {
+  console.log('Stripe integration enabled');
+} else {
+  console.log('Stripe integration disabled (missing configuration)');
+}
+
 const auth = createAuth({
   platformUrl: env.PUBLIC_PLATFORM_URL,
   backofficeUrl: env.PUBLIC_BACKOFFICE_URL,
@@ -21,6 +29,7 @@ const auth = createAuth({
   apiPath: env.PUBLIC_SERVER_API_PATH,
   authSecret: env.SERVER_AUTH_SECRET,
   db,
+  stripe: stripeConfig,
 });
 const api = createApi({
   auth,

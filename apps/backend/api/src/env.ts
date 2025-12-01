@@ -34,6 +34,46 @@ export const envSchema = v.object({
   // Frontend URL, used to configure trusted origin (CORS)
   PUBLIC_PLATFORM_URL: v.pipe(v.string(), v.url()),
   PUBLIC_BACKOFFICE_URL: v.pipe(v.string(), v.url()),
+
+  // Stripe configuration (optional - leave empty to disable Stripe integration)
+  STRIPE_SECRET_KEY: v.optional(v.string()),
+  STRIPE_WEBHOOK_SECRET: v.optional(v.string()),
+  // Stripe Price IDs for subscription plans
+  STRIPE_FREE_PRICE_ID: v.optional(v.string()),
+  STRIPE_STARTER_PRICE_ID: v.optional(v.string()),
+  STRIPE_STARTER_ANNUAL_PRICE_ID: v.optional(v.string()),
+  STRIPE_PRO_PRICE_ID: v.optional(v.string()),
+  STRIPE_PRO_ANNUAL_PRICE_ID: v.optional(v.string()),
+  STRIPE_ENTERPRISE_PRICE_ID: v.optional(v.string()),
 });
 
 export const env = v.parse(envSchema, process.env);
+
+/**
+ * Get Stripe configuration from environment variables
+ * Returns undefined if Stripe is not configured
+ */
+export function getStripeConfig() {
+  if (
+    !env.STRIPE_SECRET_KEY ||
+    !env.STRIPE_WEBHOOK_SECRET ||
+    !env.STRIPE_FREE_PRICE_ID ||
+    !env.STRIPE_STARTER_PRICE_ID ||
+    !env.STRIPE_PRO_PRICE_ID
+  ) {
+    return undefined;
+  }
+
+  return {
+    secretKey: env.STRIPE_SECRET_KEY,
+    webhookSecret: env.STRIPE_WEBHOOK_SECRET,
+    prices: {
+      free: env.STRIPE_FREE_PRICE_ID,
+      starter: env.STRIPE_STARTER_PRICE_ID,
+      starterAnnual: env.STRIPE_STARTER_ANNUAL_PRICE_ID,
+      pro: env.STRIPE_PRO_PRICE_ID,
+      proAnnual: env.STRIPE_PRO_ANNUAL_PRICE_ID,
+      enterprise: env.STRIPE_ENTERPRISE_PRICE_ID,
+    },
+  };
+}

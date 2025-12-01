@@ -1,3 +1,4 @@
+import { stripe } from '@better-auth/stripe';
 import { createDb } from '@repo/db/client';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
@@ -16,5 +17,16 @@ import { admin, openAPI, organization } from 'better-auth/plugins';
  */
 export const auth = betterAuth({
   database: drizzleAdapter(createDb(), { provider: 'pg' }),
-  plugins: [openAPI(), admin(), organization()],
+  plugins: [
+    openAPI(),
+    admin(),
+    organization(),
+    // Stripe plugin for subscription schema generation
+    // The actual stripeClient config is in server.ts - this is just for CLI schema generation
+    stripe({
+      stripeClient: {} as any, // Dummy client - not used during schema generation
+      stripeWebhookSecret: '',
+      subscription: { enabled: true, plans: [] },
+    }),
+  ],
 });

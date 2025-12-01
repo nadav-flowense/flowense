@@ -1,7 +1,7 @@
 import { FingerprintIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { Button } from '#/components/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '#/components/tooltip';
+import { Button } from '../atoms/Button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../molecules/Tooltip';
 
 export type PasskeySignInButtonProps = {
   onClick: () => void;

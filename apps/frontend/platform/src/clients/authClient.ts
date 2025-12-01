@@ -16,8 +16,8 @@ export const subscriptionQueryOptions = integration.subscriptionQueryOptions;
 
 export type {
   AuthSession,
-  Organization,
   FullOrganization,
+  Organization,
   Permission,
   Subscription,
 } from '@repo/auth/client-query';

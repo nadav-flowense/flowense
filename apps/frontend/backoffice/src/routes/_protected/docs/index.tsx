@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import type { RouterOutput } from '@repo/api/client';
-import { Input } from '@repo/ui/components/input';
+import { Input } from '@repo/ui';
 import { useQuery } from '@tanstack/react-query';
 import {
   createFileRoute,
@@ -63,7 +63,9 @@ function DocsListPage() {
   const search = Route.useSearch();
 
   const updateFilters = (name: keyof DocsSearchSchema, value: unknown) => {
-    navigate({ search: (prev: DocsSearchSchema) => ({ ...prev, [name]: value }) });
+    navigate({
+      search: (prev: DocsSearchSchema) => ({ ...prev, [name]: value }),
+    });
   };
 
   const lowercaseSearch = search.searchString.toLowerCase();

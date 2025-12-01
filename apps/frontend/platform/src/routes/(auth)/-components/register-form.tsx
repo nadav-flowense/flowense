@@ -1,7 +1,5 @@
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/input';
-import { Label } from '@repo/ui/components/label';
+import { Button, Input, Label } from '@repo/ui';
 import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';

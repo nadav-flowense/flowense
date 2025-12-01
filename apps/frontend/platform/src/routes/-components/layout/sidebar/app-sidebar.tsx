@@ -1,9 +1,9 @@
-import { useQueries } from '@tanstack/react-query';
 import {
   AppSidebar as AppSidebarBase,
-  type NavItem,
   type NavItemPermissionResult,
-} from '@repo/ui/components/app-sidebar';
+  type SidebarNavItem,
+} from '@repo/ui';
+import { useQueries } from '@tanstack/react-query';
 import { Link, useRouterState } from '@tanstack/react-router';
 import { Building2, FileText, Home } from 'lucide-react';
 import type { AuthSession } from '@/clients/authClient';
@@ -13,7 +13,7 @@ import { authClient, permissionQueryOptions } from '@/clients/authClient';
  * Navigation items with optional permission requirements
  * Items without requiredPermission are always visible
  */
-const navItems: NavItem[] = [
+const navItems: SidebarNavItem[] = [
   {
     title: 'Home',
     href: '/',

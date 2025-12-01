@@ -1,9 +1,9 @@
-import { Link } from '@tanstack/react-router';
 import { appConfig } from '@repo/config/app';
+import { Link } from '@tanstack/react-router';
 import type { AuthSession } from '@/clients/authClient';
-import { flowsLinkOptions } from '@/routes/(app)/flows/-validations/flows-link-options';
 import NavContainer from '@/routes/-components/layout/nav/nav-container';
 import UserAvatar from '@/routes/-components/layout/nav/user-avatar';
+import { flowsLinkOptions } from '@/routes/(app)/flows/-validations/flows-link-options';
 
 const activeClassName = 'underline decoration-2 opacity-70';
 

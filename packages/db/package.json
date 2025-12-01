@@ -25,11 +25,13 @@
     "env:run": "dotenv --",
     "format": "biome format ./src",
     "lint": "biome lint ./src",
+    "seed": "pnpm env:run tsx src/seed.ts",
     "push": "pnpm env:run drizzle-kit push",
     "studio": "pnpm env:run drizzle-kit studio",
     "typecheck": "tsc --build --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "better-auth": "catalog:",
     "drizzle-orm": "catalog:",
     "drizzle-valibot": "catalog:",
     "pg": "catalog:",
@@ -42,6 +44,7 @@
     "dotenv-cli": "catalog:",
     "drizzle-kit": "catalog:",
     "shx": "catalog:",
+    "tsx": "catalog:",
     "typescript": "catalog:"
   }
 }

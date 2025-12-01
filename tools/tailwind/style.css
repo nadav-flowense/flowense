@@ -39,6 +39,12 @@
   --color-warning: hsl(var(--warning));
   --color-warning-foreground: hsl(var(--warning-foreground));
 
+  --color-hover: hsl(var(--hover));
+  --color-primary-hover: hsl(var(--primary-hover));
+  --color-secondary-hover: hsl(var(--secondary-hover));
+  --color-destructive-hover: hsl(var(--destructive-hover));
+  --color-success-hover: hsl(var(--success-hover));
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -170,6 +176,12 @@
     --toast-success: 145 68% 91%;
     --toast-warning: 47 100% 96%;
 
+    /* Hover states */
+    --primary-hover: 216 28% 25%;
+    --secondary-hover: 210 20% 95%;
+    --destructive-hover: 0 85% 40%;
+    --success-hover: 145 60% 35%;
+
     /* Sidebar */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 210 13% 45%;
@@ -240,6 +252,12 @@
     --toast-loading: 216 20% 15%;
     --toast-success: 149 40% 18%;
     --toast-warning: 37 60% 20%;
+
+    /* Hover states - dark mode */
+    --primary-hover: 210 20% 85%;
+    --secondary-hover: 216 25% 22%;
+    --destructive-hover: 0 75% 65%;
+    --success-hover: 145 55% 55%;
 
     /* Sidebar */
     --sidebar-background: 216 28% 10%;

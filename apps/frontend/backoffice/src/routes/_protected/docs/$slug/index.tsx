@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
+import { Button } from '@repo/ui';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { apiClient } from '@/clients/apiClient';
 import { queryClient } from '@/clients/queryClient';

@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '#/components/card';
+} from '../molecules/Card';
 
 export type AuthWrapperProps = {
   title: string;

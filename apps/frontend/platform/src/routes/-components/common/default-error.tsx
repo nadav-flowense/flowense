@@ -1,6 +1,6 @@
-import { useRouter } from '@tanstack/react-router';
+import { Button } from '@repo/ui';
 import type { ErrorComponentProps } from '@tanstack/react-router';
-import { Button } from '@repo/ui/components/button';
+import { useRouter } from '@tanstack/react-router';
 
 function DefaultError({ error, reset }: Readonly<ErrorComponentProps>) {
   const router = useRouter();

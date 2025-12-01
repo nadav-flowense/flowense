@@ -1,18 +1,18 @@
-import { PlusIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
+import { CheckIcon, PlusIcon } from '@radix-ui/react-icons';
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@repo/ui/components/card';
-import { Skeleton } from '@repo/ui/components/skeleton';
+  Skeleton,
+} from '@repo/ui';
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import {
   authClient,
-  organizationQueryOptions,
   type Organization,
+  organizationQueryOptions,
 } from '@/clients/authClient';
 import { queryClient } from '@/clients/queryClient';
 
@@ -28,7 +28,10 @@ export const Route = createFileRoute('/(app)/organizations/')({
       authClient.getSession(),
     ]);
 
-    return { organizations, activeOrgId: session.data?.session?.activeOrganizationId };
+    return {
+      organizations,
+      activeOrgId: session.data?.session?.activeOrganizationId,
+    };
   },
 });
 
